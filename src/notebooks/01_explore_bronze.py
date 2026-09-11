@@ -174,3 +174,9 @@ for silver transformations we might rename some columns ot have better names
 for silver transformations we might need to add new columns such as Total_amount 
 """
 # %%
+spark.sql("""select invoice_id , count(*) as occurence 
+from bronze_orders_batch
+group by invoice_id
+having count(*) > 1
+""").show()
+# %%

@@ -24,22 +24,21 @@ SILVER_STREAM_CHECKPOINT = "s3a://lakehouse/silver/_checkpoints/orders_stream"
 def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> DataFrame:
     """Deduplicate orders, protect PII, enforce types, and add Silver metadata."""
 
-    # Standardize event timestamp field
+    # 1. Standardize timestamp
     df = df.withColumn("timestamp", f.col("timestamp").cast("timestamp"))
 
-    # Stateful Deduplication
+    # 2. Stateful Deduplication (including customer_id)
+    dedup_cols = ["customer_id", "invoice_id", "product_id", "timestamp"]
     if is_streaming:
-        # Watermarking is mandatory for streaming dropDuplicates
-        df = df.withWatermark("timestamp", "10 minutes").dropDuplicates(
-            ["invoice_id", "product_id", "timestamp"]
-        )
+        df = df.withWatermark("timestamp", "10 minutes").dropDuplicates(dedup_cols)
     else:
-        df = df.dropDuplicates(["invoice_id", "product_id", "timestamp"])
+        df = df.dropDuplicates(dedup_cols)
 
+    # 3. Transform & Select final columns explicitly
     return (
         df.withColumn(
             "order_line_id",
-            f.concat_ws("_", f.col("invoice_id"), f.col("product_id")),
+            f.concat_ws("_", f.col("customer_id"), f.col("invoice_id"), f.col("product_id"))
         )
         .withColumn("quantity", f.col("quantity").cast("integer"))
         .withColumn("unit_price", f.col("unit_price").cast("double"))
@@ -47,9 +46,22 @@ def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> Data
         .withColumn("customer_id_hash", f.sha2(f.col("customer_id"), 256))
         .withColumn("email_hash", f.sha2(f.lower(f.trim(f.col("email"))), 256))
         .withColumn("ip_address_hash", f.sha2(f.col("ip_address"), 256))
-        .drop("customer_id", "email", "ip_address")
         .withColumn("_silver_source", f.lit(source_name))
         .withColumn("_processed_at", f.current_timestamp())
+        .select(
+            "order_line_id",
+            "invoice_id",
+            "product_id",
+            "quantity",
+            "unit_price",
+            "total_amount",
+            "timestamp",
+            "customer_id_hash",
+            "email_hash",
+            "ip_address_hash",
+            "_silver_source",
+            "_processed_at"
+        )
     )
 
 
