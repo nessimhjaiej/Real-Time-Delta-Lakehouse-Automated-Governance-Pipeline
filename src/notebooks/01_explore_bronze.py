@@ -31,7 +31,7 @@ spark = get_spark_session("InteractiveSQLQuerying")
 spark.read.format("delta").load("s3a://lakehouse/bronze/orders_batch").createOrReplaceTempView("bronze_orders_batch")
 spark.read.format("delta").load("s3a://lakehouse/bronze/orders_stream").createOrReplaceTempView("bronze_orders_stream")
 spark.read.format("delta").load("s3a://lakehouse/bronze/products_catalog").createOrReplaceTempView("bronze_products_catalog")
-
+spark.read.format("delta").load("s3a://lakehouse/bronze/customers").createOrReplaceTempView("bronze_customers")
 print("Spark initialized and Bronze views registered successfully!")
 
 # %% Step 2: Confirm MinIO Tables are Queryable
@@ -173,10 +173,56 @@ for silver transformations we need to do PII for email , and customer ids
 for silver transformations we might rename some columns ot have better names 
 for silver transformations we might need to add new columns such as Total_amount 
 """
+
 # %%
 spark.sql("""select invoice_id , count(*) as occurence 
 from bronze_orders_batch
 group by invoice_id
 having count(*) > 1
+""").show()
+# %%
+##writing checks for the newly added customer table 
+spark.sql("""select * from bronze_customers limit 5""").show()
+#%%
+## checking for nulls 
+spark.sql("""select count(*) as null_count from bronze_customers where customer_id is null or email is null or ip_address is null
+""").show()
+#%% checking for duplicate rows /duplicate primary key 
+spark.sql("""select customer_id , count(*) as occurence
+from bronze_customers
+group by customer_id
+having count(*) > 1
+""").show()
+# %%
+"""hashing needed for customer email and ip address and customer id for PII protection"""
+# %% checking for negative values in the customer table
+spark.sql("""select * from bronze_customers where customer_id < 0 or email < 0 or ip_address < 0""").show()
+# %% checking for email inconsistency 
+spark.sql("""select * from bronze_customers where email not like '%@%.%'""").show()
+# %% checking for ip address inconsistency
+spark.sql("""select * from bronze_customers where ip_address not rlike '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'""").show()
+# %% checking for sign up inconsistency Date Range Boundaries: Check min(first_sign_up) and max(first_sign_up)
+spark.sql("""select min(first_sign_up) as min_signup , max(first_sign_up) as max_signup from bronze_customers""").show()
+# %% checking 
+spark.sql("""WITH numeric_dates AS (
+    SELECT 
+        -- Days since a fixed baseline, for variance and median calculation
+        DATEDIFF(first_sign_up, DATE'1970-01-01') AS signup_days
+    FROM bronze_customers
+    WHERE first_sign_up >= CURRENT_DATE - INTERVAL '2 years'
+)
+SELECT 
+    VARIANCE(signup_days) AS variance_days,
+    STDDEV(signup_days) AS stddev_days,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY signup_days) AS median_day_numeric,
+    DATE_ADD(DATE'1970-01-01', CAST(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY signup_days) AS INT)) AS median_signup_date
+
+FROM numeric_dates;""").show()
+# %% 
+
+spark.sql("""
+    SELECT _source_system 
+    FROM bronze_customers 
+    WHERE _source_system <> 'uci_batch_csv'
 """).show()
 # %%

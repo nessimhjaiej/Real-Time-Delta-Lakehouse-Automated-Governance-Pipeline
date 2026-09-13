@@ -62,38 +62,21 @@ def ingest_batch_sources() -> None:
     logger.info(f"Writing product catalog to Bronze sink: {bronze_api_target}")
     delta_api_sink = SinkFactory.create("delta", bronze_api_target, mode="overwrite")
     delta_api_sink.write(bronze_api_df)
-def ingest_streaming_sources() -> None:
-    """Consumes live streaming orders from Kafka and appends directly to MinIO Delta Lake."""
-    spark = get_spark_session("BronzeStreamingIngestion")
-
-    bronze_stream_target = "s3a://lakehouse/bronze/orders_stream"
-    checkpoint_target = "s3a://lakehouse/bronze/_checkpoints/orders_stream"
-
-    logger.info("Connecting to Kafka topic 'ecommerce.orders.v1'...")
-    kafka_extractor = ExtractorFactory.create(
-        "kafka", "localhost:9092", topic="ecommerce.orders.v1"
+    # 3. ingesting customer data 
+    csv_path = "data\\customers.csv"
+    # changed the \customers to \\customers this might break the pipeline but whatever 
+    bronze_customers_target = "s3a://lakehouse/bronze/customers"
+    logger.info(f"Extracting batch customers from {csv_path}...")
+    csv_extractor = ExtractorFactory.create("csv", csv_path)
+    raw_csv_df = csv_extractor.extract(spark)
+    bronze_csv_df = (
+        raw_csv_df.withColumn("_ingested_at", f.current_timestamp()).withColumn(
+            "_source_system", f.lit("uci_batch_csv")
+        )
     )
-    raw_kafka_df = kafka_extractor.extract(spark)
-
-    # Deserialize byte payload and unpack JSON schema
-    parsed_stream_df = (
-        raw_kafka_df.selectExpr("CAST(value AS STRING) as json_payload")
-        .select(f.from_json(f.col("json_payload"), STREAM_ORDER_SCHEMA).alias("data"))
-        .select("data.*")
-        .withColumn("_ingested_at", f.current_timestamp())
-        .withColumn("_source_system", f.lit("kafka_stream"))
-    )
-
-    logger.info(f"Writing streaming records to {bronze_stream_target}...")
-    query = (
-        parsed_stream_df.writeStream.format("delta")
-        .outputMode("append")
-        .option("checkpointLocation", checkpoint_target)
-        .start(bronze_stream_target)
-    )
-
-    # Keep stream running for 30 seconds during batch execution or await termination
-    query.awaitTermination(timeout=30)
+    logger.info(f"Writing raw batch customers to Bronze sink: {bronze_customers_target}")
+    delta_csv_sink = SinkFactory.create("delta", bronze_customers_target, mode="overwrite")
+    delta_csv_sink.write(bronze_csv_df)
 
 
 def ingest_streaming_sources() -> None:
