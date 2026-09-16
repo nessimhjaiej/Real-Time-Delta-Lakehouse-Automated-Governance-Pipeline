@@ -17,11 +17,13 @@ spark = get_spark_session("SilverLayerValidation")
 silver_batch = spark.read.format("delta").load("s3a://lakehouse/silver/orders_batch")
 silver_stream = spark.read.format("delta").load("s3a://lakehouse/silver/orders_stream")
 silver_products = spark.read.format("delta").load("s3a://lakehouse/silver/products_catalog")
+silver_customers = spark.read.format("delta").load("s3a://lakehouse/silver/customers")
 
 # Register Temp Views for SQL querying
 silver_batch.createOrReplaceTempView("silver_orders_batch")
 silver_stream.createOrReplaceTempView("silver_orders_stream")
 silver_products.createOrReplaceTempView("silver_products_catalog")
+silver_customers.createOrReplaceTempView("silver_customers")
 
 print("✅ Silver Delta views successfully registered!")
 # %%
@@ -122,6 +124,8 @@ spark.sql("""
     HAVING COUNT(*) > 1
 """).show()
 # ALL GOOD 
+# %% 
+spark.sql (""" select * from silver_customers  limit 5""").show()
 
 # %% DEDUCTIONS 
 """
