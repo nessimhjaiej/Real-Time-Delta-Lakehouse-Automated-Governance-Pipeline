@@ -78,10 +78,6 @@ def cleanse_products(df: DataFrame) -> DataFrame:
     )
 
 
-from pyspark.sql import DataFrame
-from pyspark.sql import functions as f
-
-
 def cleanse_customers(df: DataFrame) -> DataFrame:
     """PII scrubbing for email and ip address; retains all other columns as-is."""
     return df.withColumn(

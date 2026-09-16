@@ -1,9 +1,11 @@
 import logging
+
 from pyspark.sql import functions as f
+from pyspark.sql.types import DoubleType, IntegerType, StringType, StructType
+
 from config.spark_config import get_spark_session
 from src.utils.extractors import ExtractorFactory
 from src.utils.sinks import SinkFactory
-from pyspark.sql.types import DoubleType, IntegerType, StringType, StructType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,7 +26,8 @@ STREAM_ORDER_SCHEMA = (
 
 
 def ingest_batch_sources() -> None:
-    """Ingests historical CSV transactions and REST API catalog JSON into Bronze Delta tables."""
+    """Ingests historical CSV transactions and REST API catalog
+    JSON into Bronze Delta tables."""
     spark = get_spark_session("BronzeBatchIngestion")
 
     # 1. Ingest Raw Batch CSV Transactions

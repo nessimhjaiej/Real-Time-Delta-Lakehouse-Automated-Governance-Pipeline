@@ -56,15 +56,15 @@ spark.sql(
 # %% Step 3: Explore Bronze Tables (Fixed Syntax & Added .show())
 spark.sql(
     """
-    SELECT * 
-    FROM bronze_orders_batch 
+    SELECT *
+    FROM bronze_orders_batch
     LIMIT 5
 """
 ).show()
 # %%
 spark.sql(
     """
-select * from bronze_orders_stream 
+select * from bronze_orders_stream
 limit 5"""
 ).show()
 # %%
@@ -78,7 +78,7 @@ spark.sql(
     """
 SELECT invoice_id, COUNT(*) AS count
 FROM bronze_orders_batch
-GROUP BY invoice_id  
+GROUP BY invoice_id
 HAVING count > 1
 """
 ).show()
@@ -116,7 +116,7 @@ spark.sql(
 # no duplicates for products table
 
 # %% Check for nulls dynamically across all columns in PySpark
-from pyspark.sql.functions import col, when, count
+from pyspark.sql.functions import col, count, when
 
 df = spark.table("bronze_orders_batch")
 
@@ -125,7 +125,7 @@ null_counts = df.select([count(when(col(c).isNull(), c)).alias(c) for c in df.co
 
 null_counts.show()
 # %% Check for nulls dynamically across all columns in PySpark
-from pyspark.sql.functions import col, when, count
+from pyspark.sql.functions import col, count, when
 
 df = spark.table("bronze_orders_stream")
 
@@ -135,7 +135,7 @@ null_counts = df.select([count(when(col(c).isNull(), c)).alias(c) for c in df.co
 null_counts.show()
 
 # %% Check for nulls dynamically across all columns in PySpark
-from pyspark.sql.functions import col, when, count
+from pyspark.sql.functions import col, count, when
 
 df = spark.table("bronze_products_catalog")
 
@@ -189,17 +189,17 @@ FROM bronze_products_catalog
 # ALL GOOD
 # %%
 
-""" 
+"""
 for silver transformations we need to remove duplicates  type casting for some columns
-for silver transformations we need to deal with primary key issues 
-for silver transformations we need to do PII for email , and customer ids 
-for silver transformations we might rename some columns ot have better names 
-for silver transformations we might need to add new columns such as Total_amount 
+for silver transformations we need to deal with primary key issues
+for silver transformations we need to do PII for email , and customer ids
+for silver transformations we might rename some columns ot have better names
+for silver transformations we might need to add new columns such as Total_amount
 """
 
 # %%
 spark.sql(
-    """select invoice_id , count(*) as occurence 
+    """select invoice_id , count(*) as occurence
 from bronze_orders_batch
 group by invoice_id
 having count(*) > 1
@@ -232,7 +232,7 @@ spark.sql(
 spark.sql("""select * from bronze_customers where email not like '%@%.%'""").show()
 # %% checking for ip address inconsistency
 spark.sql(
-    """select * from bronze_customers where ip_address not rlike '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'"""
+    r"""select * from bronze_customers where ip_address not rlike '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'"""
 ).show()
 # %% checking for sign up inconsistency Date Range Boundaries: Check min(first_sign_up) and max(first_sign_up)
 spark.sql(
@@ -241,13 +241,13 @@ spark.sql(
 # %% checking
 spark.sql(
     """WITH numeric_dates AS (
-    SELECT 
+    SELECT
         -- Days since a fixed baseline, for variance and median calculation
         DATEDIFF(first_sign_up, DATE'1970-01-01') AS signup_days
     FROM bronze_customers
     WHERE first_sign_up >= CURRENT_DATE - INTERVAL '2 years'
 )
-SELECT 
+SELECT
     VARIANCE(signup_days) AS variance_days,
     STDDEV(signup_days) AS stddev_days,
     PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY signup_days) AS median_day_numeric,
@@ -259,8 +259,8 @@ FROM numeric_dates;"""
 
 spark.sql(
     """
-    SELECT _source_system 
-    FROM bronze_customers 
+    SELECT _source_system
+    FROM bronze_customers
     WHERE _source_system <> 'uci_batch_csv'
 """
 ).show()

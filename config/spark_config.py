@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-import os
+
 from pyspark.sql import SparkSession
 
 os.environ["PYSPARK_PYTHON"] = sys.executable

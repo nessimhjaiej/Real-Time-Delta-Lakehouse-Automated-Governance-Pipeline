@@ -3,6 +3,7 @@ import logging
 import random
 import time
 from datetime import datetime
+
 from kafka import KafkaProducer
 
 logging.basicConfig(level=logging.INFO)

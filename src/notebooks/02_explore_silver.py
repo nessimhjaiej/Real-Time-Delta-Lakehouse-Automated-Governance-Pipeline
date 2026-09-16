@@ -24,7 +24,7 @@ silver_customers = spark.read.format("delta").load("s3a://lakehouse/silver/custo
 # Register Temp Views for SQL querying
 silver_batch.createOrReplaceTempView("silver_orders_batch")
 silver_stream.createOrReplaceTempView("silver_orders_stream")
-silver_products.createOrReplaceTempView("silver_products_catalog")
+silver_products.createOrReplaceTempView("silver_products")
 silver_customers.createOrReplaceTempView("silver_customers")
 
 print("✅ Silver Delta views successfully registered!")
@@ -32,8 +32,8 @@ print("✅ Silver Delta views successfully registered!")
 # selecting some data from silver_orders_batch
 spark.sql(
     """
-    SELECT * 
-    FROM silver_orders_batch 
+    SELECT *
+    FROM silver_orders_batch
     LIMIT 5
 """
 ).show()
@@ -42,7 +42,7 @@ spark.sql(
 # checking if order_line_id is unique in silver_orders_batch
 spark.sql(
     """
-    SELECT count(distinct(order_line_id)) as unique_ids, COUNT(*) as total_rows 
+    SELECT count(distinct(order_line_id)) as unique_ids, COUNT(*) as total_rows
     FROM silver_orders_batch
 """
 ).show()
@@ -51,8 +51,8 @@ spark.sql(
 # %% checking the duplicate in silver_orders_batch up close
 spark.sql(
     """
-    SELECT 
-    invoice_id, 
+    SELECT
+    invoice_id,
     COUNT(*) AS occurrence_count
 FROM silver_orders_batch
 GROUP BY invoice_id
@@ -113,12 +113,12 @@ spark.sql(
 spark.sql(
     """
     WITH ranked_records AS (
-        SELECT 
+        SELECT
             order_line_id,
             COUNT(*) OVER(PARTITION BY order_line_id) AS line_id_occurrence_count
         FROM silver_orders_stream
     )
-    SELECT 
+    SELECT
         COUNT(DISTINCT order_line_id) AS total_affected_keys,
         SUM(CASE WHEN line_id_occurrence_count > 1 THEN 1 ELSE 0 END) AS total_duplicate_rows,
         COUNT(*) AS total_table_rows
@@ -158,3 +158,7 @@ this unique key should be in the first row of the silver_orders_batch table.
 (the order_line_id should be the first column in the silver_orders_batch table)
 this process should be applied for both silver_orders_batch and silver_orders_stream tables.
 """
+
+# %% exploring bits of data
+spark.sql(""" select * from silver_products limit 5""").show()
+# %%
