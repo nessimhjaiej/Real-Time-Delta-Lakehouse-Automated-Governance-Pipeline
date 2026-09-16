@@ -16,7 +16,7 @@ class DeltaSink(BaseSink):
         self,
         path_or_table: str | Path,
         mode: str = "append",
-        partition_by: list[str] | None = None,
+        partition_by: str | list[str] | None = None,
         **options: str,
     ) -> None:
         self.target = str(path_or_table)
