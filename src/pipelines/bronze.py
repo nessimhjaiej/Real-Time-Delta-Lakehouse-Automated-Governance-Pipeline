@@ -35,11 +35,9 @@ def ingest_batch_sources() -> None:
     csv_extractor = ExtractorFactory.create("csv", csv_path)
     raw_csv_df = csv_extractor.extract(spark)
 
-    bronze_csv_df = (
-        raw_csv_df.withColumn("_ingested_at", f.current_timestamp()).withColumn(
-            "_source_system", f.lit("uci_batch_csv")
-        )
-    )
+    bronze_csv_df = raw_csv_df.withColumn(
+        "_ingested_at", f.current_timestamp()
+    ).withColumn("_source_system", f.lit("uci_batch_csv"))
 
     logger.info(f"Writing raw batch transactions to Bronze sink: {bronze_csv_target}")
     delta_csv_sink = SinkFactory.create("delta", bronze_csv_target, mode="append")
@@ -53,29 +51,29 @@ def ingest_batch_sources() -> None:
     api_extractor = ExtractorFactory.create("api", api_path, multiline="true")
     raw_api_df = api_extractor.extract(spark)
 
-    bronze_api_df = (
-        raw_api_df.withColumn("_ingested_at", f.current_timestamp()).withColumn(
-            "_source_system", f.lit("fakestore_api")
-        )
-    )
+    bronze_api_df = raw_api_df.withColumn(
+        "_ingested_at", f.current_timestamp()
+    ).withColumn("_source_system", f.lit("fakestore_api"))
 
     logger.info(f"Writing product catalog to Bronze sink: {bronze_api_target}")
     delta_api_sink = SinkFactory.create("delta", bronze_api_target, mode="overwrite")
     delta_api_sink.write(bronze_api_df)
-    # 3. ingesting customer data 
+    # 3. ingesting customer data
     csv_path = "data\\customers.csv"
-    # changed the \customers to \\customers this might break the pipeline but whatever 
+    # changed the \customers to \\customers this might break the pipeline but whatever
     bronze_customers_target = "s3a://lakehouse/bronze/customers"
     logger.info(f"Extracting batch customers from {csv_path}...")
     csv_extractor = ExtractorFactory.create("csv", csv_path)
     raw_csv_df = csv_extractor.extract(spark)
-    bronze_csv_df = (
-        raw_csv_df.withColumn("_ingested_at", f.current_timestamp()).withColumn(
-            "_source_system", f.lit("uci_batch_csv")
-        )
+    bronze_csv_df = raw_csv_df.withColumn(
+        "_ingested_at", f.current_timestamp()
+    ).withColumn("_source_system", f.lit("uci_batch_csv"))
+    logger.info(
+        f"Writing raw batch customers to Bronze sink: {bronze_customers_target}"
     )
-    logger.info(f"Writing raw batch customers to Bronze sink: {bronze_customers_target}")
-    delta_csv_sink = SinkFactory.create("delta", bronze_customers_target, mode="overwrite")
+    delta_csv_sink = SinkFactory.create(
+        "delta", bronze_customers_target, mode="overwrite"
+    )
     delta_csv_sink.write(bronze_csv_df)
 
 
@@ -111,6 +109,7 @@ def ingest_streaming_sources() -> None:
 
     # Keep stream running for 30 seconds during batch execution or await termination
     query.awaitTermination(timeout=30)
+
 
 def run_bronze_pipeline() -> None:
     """Executes full Bronze ingestion suite."""

@@ -26,7 +26,9 @@ def generate_initial_customers() -> None:
 
     batch_count = bronze_batch.count()
     stream_count = bronze_stream.count()
-    logger.info(f"Bronze batch rows: {batch_count} | Bronze stream rows: {stream_count}")
+    logger.info(
+        f"Bronze batch rows: {batch_count} | Bronze stream rows: {stream_count}"
+    )
     if batch_count == 0 and stream_count == 0:
         logger.warning("Both bronze sources are empty — output will be empty too.")
 
@@ -46,7 +48,14 @@ def generate_initial_customers() -> None:
     with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f_out:
         writer = csv.writer(f_out)
         writer.writerow(
-            ["customer_id", "full_name", "email", "ip_address", "country", "first_sign_up"]
+            [
+                "customer_id",
+                "full_name",
+                "email",
+                "ip_address",
+                "country",
+                "first_sign_up",
+            ]
         )
         for row in rows:
             writer.writerow(

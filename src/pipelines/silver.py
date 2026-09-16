@@ -22,6 +22,7 @@ SILVER_STREAM_CHECKPOINT = "s3a://lakehouse/silver/_checkpoints/orders_stream"
 BRONZE_CUSTOMERS_PATH = "s3a://lakehouse/bronze/customers"
 SILVER_CUSTOMERS_PATH = "s3a://lakehouse/silver/customers"
 
+
 def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> DataFrame:
     """Deduplicate orders, protect PII, enforce types, and add Silver metadata."""
 
@@ -39,7 +40,9 @@ def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> Data
     return (
         df.withColumn(
             "order_line_id",
-            f.concat_ws("_", f.col("customer_id"), f.col("invoice_id"), f.col("product_id"))
+            f.concat_ws(
+                "_", f.col("customer_id"), f.col("invoice_id"), f.col("product_id")
+            ),
         )
         .withColumn("quantity", f.col("quantity").cast("integer"))
         .withColumn("unit_price", f.col("unit_price").cast("double"))
@@ -61,7 +64,7 @@ def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> Data
             "email_hash",
             "ip_address_hash",
             "_silver_source",
-            "_processed_at"
+            "_processed_at",
         )
     )
 
@@ -73,16 +76,18 @@ def cleanse_products(df: DataFrame) -> DataFrame:
         .withColumn("price", f.col("price").cast("double"))
         .withColumn("_processed_at", f.current_timestamp())
     )
+
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as f
 
+
 def cleanse_customers(df: DataFrame) -> DataFrame:
     """PII scrubbing for email and ip address; retains all other columns as-is."""
-    return (
-        df
-        .withColumn("email", f.sha2(f.lower(f.trim(f.col("email"))), 256))
-        .withColumn("ip_address", f.sha2(f.trim(f.col("ip_address")), 256))
-    )
+    return df.withColumn(
+        "email", f.sha2(f.lower(f.trim(f.col("email"))), 256)
+    ).withColumn("ip_address", f.sha2(f.trim(f.col("ip_address")), 256))
+
 
 def write_batch_silver(spark: SparkSession) -> None:
     """Transform Bronze batch orders and products, then overwrite Silver tables."""
@@ -92,7 +97,9 @@ def write_batch_silver(spark: SparkSession) -> None:
         is_streaming=False,
     )
     products = cleanse_products(spark.read.format("delta").load(BRONZE_PRODUCTS_PATH))
-    customers = cleanse_customers(spark.read.format("delta").load(BRONZE_CUSTOMERS_PATH))
+    customers = cleanse_customers(
+        spark.read.format("delta").load(BRONZE_CUSTOMERS_PATH)
+    )
     batch_orders.write.format("delta").mode("overwrite").option(
         "overwriteSchema", "true"
     ).save(SILVER_BATCH_PATH)
@@ -101,10 +108,12 @@ def write_batch_silver(spark: SparkSession) -> None:
         "overwriteSchema", "true"
     ).save(SILVER_PRODUCTS_PATH)
     customers.write.format("delta").mode("overwrite").option(
-        "overwriteSchema" ,"true"
+        "overwriteSchema", "true"
     ).save(SILVER_CUSTOMERS_PATH)
 
-    logger.info("Silver batch orders, product catalog, and customer data written successfully.")
+    logger.info(
+        "Silver batch orders, product catalog, and customer data written successfully."
+    )
 
 
 def start_streaming_silver(spark: SparkSession) -> StreamingQuery:
@@ -129,6 +138,7 @@ def start_streaming_silver(spark: SparkSession) -> StreamingQuery:
         .option("checkpointLocation", SILVER_STREAM_CHECKPOINT)
         .start(SILVER_STREAM_PATH)
     )
+
 
 def run_silver_pipeline() -> StreamingQuery:
     """Run batch Silver transformations and start the Silver streaming query."""
