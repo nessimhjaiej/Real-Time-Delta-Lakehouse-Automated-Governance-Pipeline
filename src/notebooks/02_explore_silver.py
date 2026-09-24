@@ -162,3 +162,14 @@ this process should be applied for both silver_orders_batch and silver_orders_st
 # %% exploring bits of data
 spark.sql(""" select * from silver_products limit 5""").show()
 # %%
+spark.sql("SHOW TABLES").show(truncate=False)
+# %%
+tables_df = spark.sql("SHOW TABLES")
+for row in tables_df.collect():
+    print("========================================")
+    print(f"TABLE: {row.tableName}")
+    print("========================================")
+    spark.sql(f"DESCRIBE TABLE {row.tableName}").show(truncate=False)
+    print("\n")
+
+# %%
