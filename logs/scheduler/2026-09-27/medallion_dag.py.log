@@ -2197,3 +2197,353 @@
 [2026-09-27T19:29:28.050+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:29:28.049+0000] {dag.py:3239} INFO - Sync 1 DAGs
 [2026-09-27T19:29:28.083+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:29:28.083+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
 [2026-09-27T19:29:28.122+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 1.272 seconds
+[2026-09-27T19:29:58.719+0000] {processor.py:186} INFO - Started process (PID=5588) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:29:58.723+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:29:58.730+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:29:58.729+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:29:59.683+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:29:59.722+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:29:59.722+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:29:59.755+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:29:59.755+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:29:59.787+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 1.079 seconds
+[2026-09-27T19:30:30.285+0000] {processor.py:186} INFO - Started process (PID=5593) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:30:30.288+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:30:30.299+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:30:30.298+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:30:31.532+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:30:31.586+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:30:31.585+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:30:31.638+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:30:31.637+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:30:31.693+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 1.421 seconds
+[2026-09-27T19:31:02.178+0000] {processor.py:186} INFO - Started process (PID=5598) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:02.180+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:31:02.184+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:02.184+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:02.759+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:02.801+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:02.801+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:31:02.844+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:02.844+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:31:02.873+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.704 seconds
+[2026-09-27T19:31:33.179+0000] {processor.py:186} INFO - Started process (PID=5603) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:33.181+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:31:33.185+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:33.184+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:33.764+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:31:33.800+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:33.800+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:31:33.831+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:31:33.831+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:31:33.858+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.689 seconds
+[2026-09-27T19:32:04.295+0000] {processor.py:186} INFO - Started process (PID=5608) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:04.298+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:32:04.304+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:04.303+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:04.865+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:04.895+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:04.895+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:32:04.928+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:04.927+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:32:04.952+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.670 seconds
+[2026-09-27T19:32:35.364+0000] {processor.py:186} INFO - Started process (PID=5613) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:35.367+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:32:35.372+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:35.372+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:35.971+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:32:36.009+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:36.008+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:32:36.043+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:32:36.043+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:32:36.077+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.722 seconds
+[2026-09-27T19:33:06.346+0000] {processor.py:186} INFO - Started process (PID=5618) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:06.348+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:33:06.353+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:06.352+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:06.910+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:06.939+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:06.939+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:33:06.976+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:06.976+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:33:07.003+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.666 seconds
+[2026-09-27T19:33:37.427+0000] {processor.py:186} INFO - Started process (PID=5623) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:37.429+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:33:37.433+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:37.433+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:37.982+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:33:38.008+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:38.008+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:33:38.037+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:33:38.037+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:33:38.067+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.649 seconds
+[2026-09-27T19:34:08.216+0000] {processor.py:186} INFO - Started process (PID=5628) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:08.218+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:34:08.223+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:08.223+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:08.868+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:08.905+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:08.904+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:34:08.939+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:08.938+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:34:08.967+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.764 seconds
+[2026-09-27T19:34:39.384+0000] {processor.py:186} INFO - Started process (PID=5633) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:39.387+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:34:39.391+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:39.390+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:39.986+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:34:40.026+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:40.025+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:34:40.059+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:34:40.059+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:34:40.089+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.712 seconds
+[2026-09-27T19:35:10.182+0000] {processor.py:186} INFO - Started process (PID=5638) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:10.185+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:35:10.190+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:10.189+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:10.803+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:10.835+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:10.835+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:35:10.867+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:10.866+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:35:10.893+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.721 seconds
+[2026-09-27T19:35:41.320+0000] {processor.py:186} INFO - Started process (PID=5643) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:41.324+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:35:41.332+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:41.330+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:41.952+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:35:41.982+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:41.982+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:35:42.013+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:35:42.013+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:35:42.038+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.735 seconds
+[2026-09-27T19:36:12.272+0000] {processor.py:186} INFO - Started process (PID=5648) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:12.274+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:36:12.282+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:12.281+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:12.848+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:12.886+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:12.885+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:36:12.916+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:12.916+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:36:12.941+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.682 seconds
+[2026-09-27T19:36:43.385+0000] {processor.py:186} INFO - Started process (PID=5653) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:43.388+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:36:43.393+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:43.392+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:43.954+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:36:43.985+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:43.985+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:36:44.017+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:36:44.017+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:36:44.046+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.671 seconds
+[2026-09-27T19:37:14.192+0000] {processor.py:186} INFO - Started process (PID=5658) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:14.194+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:37:14.200+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:14.199+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:14.890+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:14.927+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:14.927+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:37:14.959+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:14.959+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:37:14.991+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.811 seconds
+[2026-09-27T19:37:45.393+0000] {processor.py:186} INFO - Started process (PID=5663) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:45.396+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:37:45.400+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:45.400+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:46.016+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:37:46.048+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:46.047+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:37:46.077+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:37:46.077+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:37:46.104+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.722 seconds
+[2026-09-27T19:38:16.457+0000] {processor.py:186} INFO - Started process (PID=5668) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:16.460+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:38:16.464+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:16.464+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:17.119+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:17.150+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:17.149+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:38:17.180+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:17.180+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:38:17.215+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.768 seconds
+[2026-09-27T19:38:47.452+0000] {processor.py:186} INFO - Started process (PID=5673) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:47.455+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:38:47.459+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:47.458+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:48.009+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:38:48.038+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:48.038+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:38:48.069+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:38:48.069+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:38:48.094+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.652 seconds
+[2026-09-27T19:39:18.579+0000] {processor.py:186} INFO - Started process (PID=5678) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:18.581+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:39:18.587+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:18.586+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:19.153+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:19.188+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:19.187+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:39:19.224+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:19.224+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:39:19.258+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.690 seconds
+[2026-09-27T19:39:49.681+0000] {processor.py:186} INFO - Started process (PID=5683) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:49.685+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:39:49.691+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:49.689+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:50.389+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:39:50.422+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:50.422+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:39:50.454+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:39:50.454+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:39:50.480+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.809 seconds
+[2026-09-27T19:40:20.700+0000] {processor.py:186} INFO - Started process (PID=5688) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:20.707+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:40:20.719+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:20.718+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:21.977+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:22.016+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:22.015+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:40:22.052+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:22.052+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:40:22.097+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 1.414 seconds
+[2026-09-27T19:40:52.409+0000] {processor.py:186} INFO - Started process (PID=5693) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:52.412+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:40:52.421+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:52.420+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:52.899+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:40:52.927+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:52.926+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:40:52.952+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:40:52.952+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:40:52.974+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.575 seconds
+[2026-09-27T19:41:23.395+0000] {processor.py:186} INFO - Started process (PID=5698) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:23.397+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:41:23.401+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:23.401+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:23.843+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:23.868+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:23.868+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:41:23.893+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:23.893+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:41:23.925+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.536 seconds
+[2026-09-27T19:41:54.340+0000] {processor.py:186} INFO - Started process (PID=5703) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:54.342+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:41:54.345+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:54.345+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:54.813+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:41:54.839+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:54.839+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:41:54.865+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:41:54.864+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:41:54.888+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.555 seconds
+[2026-09-27T19:42:25.317+0000] {processor.py:186} INFO - Started process (PID=5708) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:25.319+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:42:25.323+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:25.323+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:25.742+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:25.772+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:25.772+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:42:25.807+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:25.807+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:42:25.833+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.522 seconds
+[2026-09-27T19:42:56.282+0000] {processor.py:186} INFO - Started process (PID=5713) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:56.283+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:42:56.288+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:56.287+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:56.957+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:42:56.986+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:56.986+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:42:57.015+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:42:57.015+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:42:57.036+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.760 seconds
+[2026-09-27T19:43:27.520+0000] {processor.py:186} INFO - Started process (PID=5718) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:27.523+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:43:27.527+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:27.527+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:27.986+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:28.012+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:28.012+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:43:28.037+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:28.037+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:43:28.063+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.553 seconds
+[2026-09-27T19:43:58.518+0000] {processor.py:186} INFO - Started process (PID=5723) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:58.520+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:43:58.525+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:58.525+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:59.215+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:43:59.241+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:59.241+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:43:59.268+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:43:59.268+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:43:59.289+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.781 seconds
+[2026-09-27T19:44:29.440+0000] {processor.py:186} INFO - Started process (PID=5728) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:44:29.444+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:44:29.452+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:44:29.452+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:44:30.161+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:44:30.192+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:44:30.191+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:44:30.223+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:44:30.223+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:44:30.252+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.822 seconds
+[2026-09-27T19:45:00.725+0000] {processor.py:186} INFO - Started process (PID=5733) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:00.728+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:45:00.735+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:00.734+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:01.587+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:01.615+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:01.614+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:45:01.648+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:01.647+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:45:01.683+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.967 seconds
+[2026-09-27T19:45:32.175+0000] {processor.py:186} INFO - Started process (PID=5738) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:32.177+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:45:32.181+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:32.181+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:32.696+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:45:32.730+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:32.730+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:45:32.759+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:45:32.758+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:45:32.785+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.617 seconds
+[2026-09-27T19:46:03.470+0000] {processor.py:186} INFO - Started process (PID=5743) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:03.472+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:46:03.476+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:03.475+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:04.044+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:04.086+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:04.085+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:46:04.123+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:04.123+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:46:04.155+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.694 seconds
+[2026-09-27T19:46:34.586+0000] {processor.py:186} INFO - Started process (PID=5748) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:34.588+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:46:34.599+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:34.598+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:35.054+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:46:35.099+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:35.099+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:46:35.139+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:46:35.138+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:46:35.174+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.599 seconds
+[2026-09-27T19:47:05.556+0000] {processor.py:186} INFO - Started process (PID=5753) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:05.559+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:47:05.563+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:05.563+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:06.247+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:06.287+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:06.287+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:47:06.333+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:06.333+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:47:06.365+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.819 seconds
+[2026-09-27T19:47:36.902+0000] {processor.py:186} INFO - Started process (PID=5758) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:36.907+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:47:36.915+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:36.914+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:37.513+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:47:37.563+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:37.563+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:47:37.603+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:47:37.603+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:47:37.634+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.751 seconds
+[2026-09-27T19:48:08.161+0000] {processor.py:186} INFO - Started process (PID=5763) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:08.164+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:48:08.170+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:08.169+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:08.717+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:08.752+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:08.752+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:48:08.784+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:08.784+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:48:08.808+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.656 seconds
+[2026-09-27T19:48:39.248+0000] {processor.py:186} INFO - Started process (PID=5768) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:39.253+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:48:39.260+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:39.259+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:39.959+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:48:40.017+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:40.016+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:48:40.067+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:48:40.067+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:48:40.113+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.874 seconds
+[2026-09-27T19:49:10.571+0000] {processor.py:186} INFO - Started process (PID=5773) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:10.574+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:49:10.581+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:10.580+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:11.142+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:11.179+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:11.179+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:49:11.217+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:11.217+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:49:11.246+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.687 seconds
+[2026-09-27T19:49:41.371+0000] {processor.py:186} INFO - Started process (PID=5778) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:41.373+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:49:41.378+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:41.378+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:41.856+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:49:41.889+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:41.889+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:49:41.921+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:49:41.921+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:49:41.946+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.584 seconds
+[2026-09-27T19:50:11.998+0000] {processor.py:186} INFO - Started process (PID=5783) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:12.000+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:50:12.008+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:12.007+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:12.495+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:12.535+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:12.534+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:50:12.575+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:12.575+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:50:12.610+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.620 seconds
+[2026-09-27T19:50:42.867+0000] {processor.py:186} INFO - Started process (PID=5788) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:42.870+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:50:42.877+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:42.876+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:43.320+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:50:43.355+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:43.354+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:50:43.391+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:50:43.391+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:50:43.419+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.581 seconds
+[2026-09-27T19:51:13.838+0000] {processor.py:186} INFO - Started process (PID=5793) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:13.841+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:51:13.846+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:13.845+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:14.418+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:14.484+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:14.484+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:51:14.537+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:14.536+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:51:14.584+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.758 seconds
+[2026-09-27T19:51:44.785+0000] {processor.py:186} INFO - Started process (PID=5798) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:44.789+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:51:44.794+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:44.793+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:45.081+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:51:45.116+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:45.115+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:51:45.150+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:51:45.150+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:51:45.172+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.397 seconds
+[2026-09-27T19:52:15.348+0000] {processor.py:186} INFO - Started process (PID=5803) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:15.351+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:52:15.358+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:15.357+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:15.991+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:16.050+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:16.050+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:52:16.104+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:16.103+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:52:16.150+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.816 seconds
+[2026-09-27T19:52:46.585+0000] {processor.py:186} INFO - Started process (PID=5808) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:46.588+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:52:46.596+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:46.595+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:47.220+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:52:47.281+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:47.280+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:52:47.348+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:52:47.347+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:52:47.399+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.830 seconds
+[2026-09-27T19:53:17.873+0000] {processor.py:186} INFO - Started process (PID=5813) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:17.875+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:53:17.883+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:17.883+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:18.518+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:18.563+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:18.563+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:53:18.601+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:18.601+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:53:18.633+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.771 seconds
+[2026-09-27T19:53:49.030+0000] {processor.py:186} INFO - Started process (PID=5818) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:49.033+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:53:49.038+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:49.038+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:49.527+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:53:49.561+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:49.561+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:53:49.592+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:53:49.592+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:53:49.622+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.599 seconds
+[2026-09-27T19:54:19.792+0000] {processor.py:186} INFO - Started process (PID=5823) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:19.794+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:54:19.799+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:19.798+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:20.329+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:20.385+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:20.385+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:54:20.437+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:20.437+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:54:20.472+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.690 seconds
+[2026-09-27T19:54:50.864+0000] {processor.py:186} INFO - Started process (PID=5828) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:50.868+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:54:50.873+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:50.873+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:51.466+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:54:51.507+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:51.507+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:54:51.553+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:54:51.552+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:54:51.586+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 0.733 seconds
+[2026-09-27T19:55:21.893+0000] {processor.py:186} INFO - Started process (PID=5833) to work on /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:55:21.896+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/medallion_dag.py for tasks to queue
+[2026-09-27T19:55:21.901+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:55:21.901+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:55:22.863+0000] {processor.py:925} INFO - DAG(s) 'medallion_pipeline' retrieved from /opt/airflow/dags/medallion_dag.py
+[2026-09-27T19:55:22.907+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:55:22.906+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2026-09-27T19:55:22.955+0000] {logging_mixin.py:190} INFO - [2026-09-27T19:55:22.955+0000] {dag.py:4180} INFO - Setting next_dagrun for medallion_pipeline to 2026-09-27 00:00:00+00:00, run_after=2026-09-28 00:00:00+00:00
+[2026-09-27T19:55:22.989+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/medallion_dag.py took 1.107 seconds
