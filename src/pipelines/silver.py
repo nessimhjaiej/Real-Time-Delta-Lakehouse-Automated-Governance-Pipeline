@@ -145,6 +145,15 @@ def run_silver_pipeline() -> StreamingQuery:
     return query
 
 
+def run_silver_batch_pipeline() -> None:
+    """Run only finite Silver batch transformations for Airflow."""
+    spark = get_spark_session("SilverBatchTransformation")
+    try:
+        write_batch_silver(spark)
+    finally:
+        spark.stop()
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     run_silver_pipeline().awaitTermination()

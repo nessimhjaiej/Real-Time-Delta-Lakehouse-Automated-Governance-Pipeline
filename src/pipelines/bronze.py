@@ -1,4 +1,6 @@
 import logging
+import os
+from pathlib import Path
 
 from pyspark.sql import functions as f
 from pyspark.sql.types import DoubleType, IntegerType, StringType, StructType
@@ -9,6 +11,7 @@ from src.utils.sinks import SinkFactory
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Raw Kafka JSON Schema definition
 STREAM_ORDER_SCHEMA = (
@@ -30,54 +33,40 @@ def ingest_batch_sources() -> None:
     JSON into Bronze Delta tables."""
     spark = get_spark_session("BronzeBatchIngestion")
 
-    # 1. Ingest Raw Batch CSV Transactions
-    csv_path = "data/raw_transactions/orders_batch.csv"
-    bronze_csv_target = "s3a://lakehouse/bronze/orders_batch"
+    try:
+        csv_path = str(PROJECT_ROOT / "data" / "raw_transactions" / "orders_batch.csv")
+        logger.info("Extracting batch transactions from %s...", csv_path)
+        raw_csv_df = ExtractorFactory.create("csv", csv_path).extract(spark)
+        bronze_csv_df = raw_csv_df.withColumn(
+            "_ingested_at", f.current_timestamp()
+        ).withColumn("_source_system", f.lit("uci_batch_csv"))
+        SinkFactory.create(
+            "delta", "s3a://lakehouse/bronze/orders_batch", mode="append"
+        ).write(bronze_csv_df)
 
-    logger.info(f"Extracting batch transactions from {csv_path}...")
-    csv_extractor = ExtractorFactory.create("csv", csv_path)
-    raw_csv_df = csv_extractor.extract(spark)
+        api_path = str(PROJECT_ROOT / "data" / "raw_transactions" / "products_api.json")
+        logger.info("Extracting product catalog from %s...", api_path)
+        raw_api_df = ExtractorFactory.create("api", api_path, multiline="true").extract(
+            spark
+        )
+        bronze_api_df = raw_api_df.withColumn(
+            "_ingested_at", f.current_timestamp()
+        ).withColumn("_source_system", f.lit("fakestore_api"))
+        SinkFactory.create(
+            "delta", "s3a://lakehouse/bronze/products_catalog", mode="overwrite"
+        ).write(bronze_api_df)
 
-    bronze_csv_df = raw_csv_df.withColumn(
-        "_ingested_at", f.current_timestamp()
-    ).withColumn("_source_system", f.lit("uci_batch_csv"))
-
-    logger.info(f"Writing raw batch transactions to Bronze sink: {bronze_csv_target}")
-    delta_csv_sink = SinkFactory.create("delta", bronze_csv_target, mode="append")
-    delta_csv_sink.write(bronze_csv_df)
-
-    # 2. Ingest REST API Product Catalog JSON
-    api_path = "data/raw_transactions/products_api.json"
-    bronze_api_target = "s3a://lakehouse/bronze/products_catalog"
-
-    logger.info(f"Extracting product catalog from {api_path}...")
-    api_extractor = ExtractorFactory.create("api", api_path, multiline="true")
-    raw_api_df = api_extractor.extract(spark)
-
-    bronze_api_df = raw_api_df.withColumn(
-        "_ingested_at", f.current_timestamp()
-    ).withColumn("_source_system", f.lit("fakestore_api"))
-
-    logger.info(f"Writing product catalog to Bronze sink: {bronze_api_target}")
-    delta_api_sink = SinkFactory.create("delta", bronze_api_target, mode="overwrite")
-    delta_api_sink.write(bronze_api_df)
-    # 3. ingesting customer data
-    csv_path = "data\\customers.csv"
-    # changed the \customers to \\customers this might break the pipeline but whatever
-    bronze_customers_target = "s3a://lakehouse/bronze/customers"
-    logger.info(f"Extracting batch customers from {csv_path}...")
-    csv_extractor = ExtractorFactory.create("csv", csv_path)
-    raw_csv_df = csv_extractor.extract(spark)
-    bronze_csv_df = raw_csv_df.withColumn(
-        "_ingested_at", f.current_timestamp()
-    ).withColumn("_source_system", f.lit("uci_batch_csv"))
-    logger.info(
-        f"Writing raw batch customers to Bronze sink: {bronze_customers_target}"
-    )
-    delta_csv_sink = SinkFactory.create(
-        "delta", bronze_customers_target, mode="overwrite"
-    )
-    delta_csv_sink.write(bronze_csv_df)
+        customer_path = str(PROJECT_ROOT / "data" / "customers.csv")
+        logger.info("Extracting batch customers from %s...", customer_path)
+        raw_customers_df = ExtractorFactory.create("csv", customer_path).extract(spark)
+        bronze_customers_df = raw_customers_df.withColumn(
+            "_ingested_at", f.current_timestamp()
+        ).withColumn("_source_system", f.lit("uci_batch_csv"))
+        SinkFactory.create(
+            "delta", "s3a://lakehouse/bronze/customers", mode="overwrite"
+        ).write(bronze_customers_df)
+    finally:
+        spark.stop()
 
 
 def ingest_streaming_sources() -> None:
@@ -89,7 +78,9 @@ def ingest_streaming_sources() -> None:
 
     logger.info("Connecting to Kafka topic 'ecommerce.orders.v1'...")
     kafka_extractor = ExtractorFactory.create(
-        "kafka", "localhost:9092", topic="ecommerce.orders.v1"
+        "kafka",
+        os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"),
+        topic="ecommerce.orders.v1",
     )
     raw_kafka_df = kafka_extractor.extract(spark)
 
@@ -110,8 +101,7 @@ def ingest_streaming_sources() -> None:
         .start(bronze_stream_target)
     )
 
-    # Keep stream running for 30 seconds during batch execution or await termination
-    query.awaitTermination(timeout=30)
+    query.awaitTermination()
 
 
 def run_bronze_pipeline() -> None:

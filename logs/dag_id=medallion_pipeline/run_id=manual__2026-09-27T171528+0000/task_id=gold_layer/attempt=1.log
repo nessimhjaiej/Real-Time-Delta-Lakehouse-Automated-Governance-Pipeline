@@ -1,0 +1,21 @@
+[2026-09-27T17:27:01.345+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-09-27T17:27:01.368+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: medallion_pipeline.gold_layer manual__2026-09-27T17:15:28+00:00 [queued]>
+[2026-09-27T17:27:01.381+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: medallion_pipeline.gold_layer manual__2026-09-27T17:15:28+00:00 [queued]>
+[2026-09-27T17:27:01.383+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2026-09-27T17:27:01.403+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): gold_layer> on 2026-09-27 17:15:28+00:00
+[2026-09-27T17:27:01.416+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=1827) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2026-09-27T17:27:01.415+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'medallion_pipeline', 'gold_layer', 'manual__2026-09-27T17:15:28+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/medallion_dag.py', '--cfg-path', '/tmp/tmprhlgh5wf']
+[2026-09-27T17:27:01.419+0000] {standard_task_runner.py:72} INFO - Started process 1828 to run task
+[2026-09-27T17:27:01.420+0000] {standard_task_runner.py:105} INFO - Job 9: Subtask gold_layer
+[2026-09-27T17:27:01.495+0000] {task_command.py:467} INFO - Running <TaskInstance: medallion_pipeline.gold_layer manual__2026-09-27T17:15:28+00:00 [running]> on host 223d6e3ceff9
+[2026-09-27T17:27:01.595+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data-eng' AIRFLOW_CTX_DAG_ID='medallion_pipeline' AIRFLOW_CTX_TASK_ID='gold_layer' AIRFLOW_CTX_EXECUTION_DATE='2026-09-27T17:15:28+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-09-27T17:15:28+00:00'
+[2026-09-27T17:27:01.597+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-09-27T17:27:01.616+0000] {spark_config.py:26} INFO - Initializing Spark Factory in 'local' mode...
+[2026-09-27T17:27:10.683+0000] {spark_config.py:75} INFO - Local PySpark Session active. Spark Version: 3.5.0
+[2026-09-27T17:27:49.328+0000] {logging_mixin.py:190} INFO - Gold layer built: dim_customers, dim_products, fact_orders
+[2026-09-27T17:27:49.825+0000] {python.py:240} INFO - Done. Returned value was: None
+[2026-09-27T17:27:50.066+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-09-27T17:27:50.067+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=medallion_pipeline, task_id=gold_layer, run_id=manual__2026-09-27T17:15:28+00:00, execution_date=20260927T171528, start_date=20260927T172701, end_date=20260927T172750
+[2026-09-27T17:27:50.108+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-09-27T17:27:50.133+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-09-27T17:27:50.137+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -148,33 +148,39 @@ GOLD_PATHS = {
 }
 
 
-def main() -> None:
+def run_gold_pipeline() -> None:
     """Read Silver tables, build the Gold dims/fact, and write them out."""
     from config.spark_config import get_spark_session
 
     spark = get_spark_session("GoldLayerBuild")
+    try:
+        silver_customers = spark.read.format("delta").load(SILVER_PATHS["customers"])
+        silver_products = spark.read.format("delta").load(SILVER_PATHS["products"])
+        silver_orders_batch = spark.read.format("delta").load(
+            SILVER_PATHS["orders_batch"]
+        )
+        silver_orders_stream = spark.read.format("delta").load(
+            SILVER_PATHS["orders_stream"]
+        )
 
-    silver_customers = spark.read.format("delta").load(SILVER_PATHS["customers"])
-    silver_products = spark.read.format("delta").load(SILVER_PATHS["products"])
-    silver_orders_batch = spark.read.format("delta").load(SILVER_PATHS["orders_batch"])
-    silver_orders_stream = spark.read.format("delta").load(
-        SILVER_PATHS["orders_stream"]
-    )
+        dim_customers = build_dim_customers(silver_customers)
+        dim_products = build_dim_products(silver_products)
+        fact_orders = build_fact_orders(silver_orders_batch, silver_orders_stream)
 
-    dim_customers = build_dim_customers(silver_customers)
-    dim_products = build_dim_products(silver_products)
-    fact_orders = build_fact_orders(silver_orders_batch, silver_orders_stream)
+        dim_customers.write.format("delta").mode("overwrite").save(
+            GOLD_PATHS["dim_customers"]
+        )
+        dim_products.write.format("delta").mode("overwrite").save(
+            GOLD_PATHS["dim_products"]
+        )
+        fact_orders.write.format("delta").mode("overwrite").save(
+            GOLD_PATHS["fact_orders"]
+        )
 
-    dim_customers.write.format("delta").mode("overwrite").save(
-        GOLD_PATHS["dim_customers"]
-    )
-    dim_products.write.format("delta").mode("overwrite").save(
-        GOLD_PATHS["dim_products"]
-    )
-    fact_orders.write.format("delta").mode("overwrite").save(GOLD_PATHS["fact_orders"])
-
-    print("✅ Gold layer built: dim_customers, dim_products, fact_orders")
+        print("Gold layer built: dim_customers, dim_products, fact_orders")
+    finally:
+        spark.stop()
 
 
 if __name__ == "__main__":
-    main()
+    run_gold_pipeline()
