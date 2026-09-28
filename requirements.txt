@@ -9,3 +9,4 @@ kafka-python>=2.0.3
 great-expectations>=1.7.0
 apache-airflow==2.10.3
 apache-airflow-providers-openlineage==2.8.0
+pre-commit==3.6.2
