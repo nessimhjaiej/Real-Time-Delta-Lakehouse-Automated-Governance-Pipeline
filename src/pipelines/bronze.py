@@ -40,8 +40,10 @@ def ingest_batch_sources() -> None:
         bronze_csv_df = raw_csv_df.withColumn(
             "_ingested_at", f.current_timestamp()
         ).withColumn("_source_system", f.lit("uci_batch_csv"))
+        # Overwrite: the source is a full static snapshot, so appending on every
+        # scheduled run would duplicate the whole file in Bronze each day.
         SinkFactory.create(
-            "delta", "s3a://lakehouse/bronze/orders_batch", mode="append"
+            "delta", "s3a://lakehouse/bronze/orders_batch", mode="overwrite"
         ).write(bronze_csv_df)
 
         api_path = str(PROJECT_ROOT / "data" / "raw_transactions" / "products_api.json")

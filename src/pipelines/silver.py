@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import Column, DataFrame, SparkSession
 from pyspark.sql import functions as f
 from pyspark.sql.streaming import StreamingQuery
 
@@ -23,6 +23,21 @@ BRONZE_CUSTOMERS_PATH = "s3a://lakehouse/bronze/customers"
 SILVER_CUSTOMERS_PATH = "s3a://lakehouse/silver/customers"
 
 
+def hash_customer_id(col: Column) -> Column:
+    """Pseudonymize a customer id; shared by orders and customers so keys join."""
+    return f.sha2(f.trim(col), 256)
+
+
+def hash_email(col: Column) -> Column:
+    """Pseudonymize an email address (case- and whitespace-insensitive)."""
+    return f.sha2(f.lower(f.trim(col)), 256)
+
+
+def hash_ip_address(col: Column) -> Column:
+    """Pseudonymize an IP address."""
+    return f.sha2(f.trim(col), 256)
+
+
 def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> DataFrame:
     """Deduplicate orders, protect PII, enforce types, and add Silver metadata."""
 
@@ -38,18 +53,21 @@ def cleanse(df: DataFrame, source_name: str, is_streaming: bool = False) -> Data
 
     # 3. Transform & Select final columns explicitly
     return (
-        df.withColumn(
+        df.withColumn("customer_id_hash", hash_customer_id(f.col("customer_id")))
+        .withColumn(
             "order_line_id",
             f.concat_ws(
-                "_", f.col("customer_id"), f.col("invoice_id"), f.col("product_id")
+                "_",
+                f.col("customer_id_hash"),
+                f.col("invoice_id"),
+                f.col("product_id"),
             ),
         )
         .withColumn("quantity", f.col("quantity").cast("integer"))
         .withColumn("unit_price", f.col("unit_price").cast("double"))
         .withColumn("total_amount", f.round(f.col("quantity") * f.col("unit_price"), 2))
-        .withColumn("customer_id_hash", f.sha2(f.col("customer_id"), 256))
-        .withColumn("email_hash", f.sha2(f.lower(f.trim(f.col("email"))), 256))
-        .withColumn("ip_address_hash", f.sha2(f.col("ip_address"), 256))
+        .withColumn("email_hash", hash_email(f.col("email")))
+        .withColumn("ip_address_hash", hash_ip_address(f.col("ip_address")))
         .withColumn("_silver_source", f.lit(source_name))
         .withColumn("_processed_at", f.current_timestamp())
         .select(
@@ -79,10 +97,17 @@ def cleanse_products(df: DataFrame) -> DataFrame:
 
 
 def cleanse_customers(df: DataFrame) -> DataFrame:
-    """PII scrubbing for email and ip address; retains all other columns as-is."""
-    return df.withColumn(
-        "email", f.sha2(f.lower(f.trim(f.col("email"))), 256)
-    ).withColumn("ip_address", f.sha2(f.trim(f.col("ip_address")), 256))
+    """PII scrubbing for customer id, email and ip address.
+
+    ``customer_id`` is hashed exactly like ``customer_id_hash`` in ``cleanse`` so
+    Gold's ``fact_orders.customer_id`` joins to ``dim_customers.customer_id``.
+    All other columns are retained as-is.
+    """
+    return (
+        df.withColumn("customer_id", hash_customer_id(f.col("customer_id")))
+        .withColumn("email", hash_email(f.col("email")))
+        .withColumn("ip_address", hash_ip_address(f.col("ip_address")))
+    )
 
 
 def write_batch_silver(spark: SparkSession) -> None:

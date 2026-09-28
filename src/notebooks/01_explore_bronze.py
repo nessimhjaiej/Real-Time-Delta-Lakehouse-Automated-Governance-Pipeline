@@ -264,4 +264,3 @@ spark.sql(
     WHERE _source_system <> 'uci_batch_csv'
 """
 ).show()
-# %%

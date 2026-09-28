@@ -7,7 +7,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 API_URL = "https://fakestoreapi.com/products"
-OUTPUT_PATH = Path("data/raw_transactions/products_api.json")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+OUTPUT_PATH = PROJECT_ROOT / "data" / "raw_transactions" / "products_api.json"
 
 
 def fetch_and_stage_catalog() -> None:

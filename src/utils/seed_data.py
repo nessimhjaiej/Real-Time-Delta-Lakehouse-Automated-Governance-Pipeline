@@ -3,7 +3,8 @@ import random
 from datetime import datetime, timedelta
 from pathlib import Path
 
-OUTPUT_PATH = Path("data/raw_transactions/orders_batch.csv")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+OUTPUT_PATH = PROJECT_ROOT / "data" / "raw_transactions" / "orders_batch.csv"
 
 
 def generate_mock_orders(num_rows: int = 10000) -> None:

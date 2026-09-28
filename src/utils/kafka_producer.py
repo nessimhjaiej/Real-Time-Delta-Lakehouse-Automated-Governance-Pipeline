@@ -1,8 +1,9 @@
 import json
 import logging
+import os
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 from kafka import KafkaProducer
 
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 KAFKA_TOPIC = "ecommerce.orders.v1"
-BOOTSTRAP_SERVERS = ["localhost:9092"]
+BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092").split(",")
 
 PRODUCTS = [(1, 25.50), (2, 120.00), (3, 15.99), (4, 45.00), (5, 8.99)]
 
@@ -28,7 +29,7 @@ def generate_order_event(invoice_num: int) -> dict:
         "product_id": str(prod_id),
         "quantity": random.randint(1, 5),
         "unit_price": price,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
     }
 
 

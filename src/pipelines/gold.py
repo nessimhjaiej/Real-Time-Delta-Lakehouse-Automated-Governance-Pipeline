@@ -12,8 +12,12 @@ a live Delta/MinIO setup.
 
 from __future__ import annotations
 
+import logging
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as f
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Dimension: customers
@@ -58,12 +62,13 @@ def build_dim_products(silver_products: DataFrame) -> DataFrame:
 
     Drops technical metadata (``_ingested_at``, ``_source_system``,
     ``_processed_at``), renames ``id`` to ``product_id`` (the dimension's
-    primary key), and flattens the ``rating`` struct
+    primary key, cast to ``string`` to match ``fact_orders.product_id``), and
+    flattens the ``rating`` struct
     (``{rate, count}``) into ``rating_avg``/``rating_count`` so downstream
     SQL/BI consumers don't have to deal with nested fields.
     """
     return silver_products.select(
-        f.col("id").alias("product_id"),
+        f.col("id").cast("string").alias("product_id"),
         "category",
         "description",
         "price",
@@ -117,14 +122,14 @@ def build_fact_orders(
 
     Grain: one row per ``order_line_id``. Foreign keys: ``customer_id``,
     ``product_id``. Recomputes ``total_amount`` as ``quantity * unit_price``
-    in Gold, overwriting whatever value (if any) came from Silver, so Gold
+    (rounded to 2 decimals, as in Silver) in Gold, overwriting whatever value (if any) came from Silver, so Gold
     is the single source of truth for that metric.
     """
     batch = _stage_orders(silver_orders_batch)
     stream = _stage_orders(silver_orders_stream)
 
     orders = batch.unionByName(stream).withColumn(
-        "total_amount", f.col("quantity") * f.col("unit_price")
+        "total_amount", f.round(f.col("quantity") * f.col("unit_price"), 2)
     )
 
     return orders.select(*FACT_ORDERS_COLUMNS)
@@ -167,17 +172,17 @@ def run_gold_pipeline() -> None:
         dim_products = build_dim_products(silver_products)
         fact_orders = build_fact_orders(silver_orders_batch, silver_orders_stream)
 
-        dim_customers.write.format("delta").mode("overwrite").save(
-            GOLD_PATHS["dim_customers"]
-        )
-        dim_products.write.format("delta").mode("overwrite").save(
-            GOLD_PATHS["dim_products"]
-        )
-        fact_orders.write.format("delta").mode("overwrite").save(
-            GOLD_PATHS["fact_orders"]
-        )
+        outputs = {
+            "dim_customers": dim_customers,
+            "dim_products": dim_products,
+            "fact_orders": fact_orders,
+        }
+        for name, df in outputs.items():
+            df.write.format("delta").mode("overwrite").option(
+                "overwriteSchema", "true"
+            ).save(GOLD_PATHS[name])
 
-        print("Gold layer built: dim_customers, dim_products, fact_orders")
+        logger.info("Gold layer built: dim_customers, dim_products, fact_orders")
     finally:
         spark.stop()
 
