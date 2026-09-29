@@ -28,7 +28,15 @@ docker compose ps
 ```
 
 Airflow: `http://localhost:8080` (user `airflow`, password `airflow`)  
-MinIO console: `http://localhost:9001` (user `minioadmin`, password `minioadminpassword`)
+MinIO console: `http://localhost:9001` (user `minioadmin`, password `minioadminpassword`)  
+Marquez (lineage UI): `http://localhost:3000`
+
+Lineage is emitted by two layers into the same Marquez backend: the OpenLineage
+Spark listener (`config/spark_config.py`) reports every Delta table a Spark job
+actually reads/writes, and Airflow's `apache-airflow-providers-openlineage`
+reports DAG/task-level runs using the `Dataset` inlets/outlets declared in
+`dags/medallion_dag.py`. Both are fire-and-forget -- if Marquez is down, jobs
+still run, lineage just doesn't get recorded.
 
 The Airflow DAG runs the finite batch path:
 `Bronze batch -> Silver batch -> Gold`. Kafka Bronze and Delta Silver streaming

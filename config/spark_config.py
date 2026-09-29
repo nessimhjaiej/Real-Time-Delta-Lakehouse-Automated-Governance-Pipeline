@@ -53,8 +53,22 @@ def get_spark_session(app_name: str = "RealtimeGovernanceEngine") -> SparkSessio
                 "spark.jars.packages",
                 "io.delta:delta-spark_2.12:3.1.0,"
                 "org.apache.hadoop:hadoop-aws:3.3.4,"
-                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0",
+                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,"
+                "io.openlineage:openlineage-spark_2.12:1.34.0",
             )
+            # OpenLineage: every read/write this session does gets emitted to
+            # Marquez automatically. Fire-and-forget -- if Marquez is down,
+            # events are dropped and the Spark job is unaffected.
+            .config(
+                "spark.extraListeners",
+                "io.openlineage.spark.agent.OpenLineageSparkListener",
+            )
+            .config("spark.openlineage.transport.type", "http")
+            .config(
+                "spark.openlineage.transport.url",
+                os.getenv("OPENLINEAGE_URL", "http://localhost:5000"),
+            )
+            .config("spark.openlineage.namespace", "realtime-governance-engine")
             # MinIO (S3-compatible) Connection Settings
             .config("spark.hadoop.fs.s3a.endpoint", minio_endpoint)
             .config("spark.hadoop.fs.s3a.access.key", minio_access_key)

@@ -12,4 +12,5 @@ USER airflow
 RUN pip install --no-cache-dir \
     pyspark==3.5.0 \
     delta-spark==3.1.0 \
-    "great-expectations>=1.7.0"
+    "great-expectations>=1.7.0" \
+    apache-airflow-providers-openlineage==2.8.0
