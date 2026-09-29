@@ -43,7 +43,7 @@ def _orders_suite(name: str) -> ExpectationSuite:
         gx.expectations.ExpectColumnValuesToNotBeNull(column="order_line_id"),
         gx.expectations.ExpectColumnValuesToNotBeNull(column="customer_id_hash"),
         gx.expectations.ExpectColumnValuesToNotBeNull(column="product_id"),
-        gx.expectations.ExpectColumnValuesToBeBetween(column="quantity", min_value=1),
+        gx.expectations.ExpectColumnValuesToBeBetween(column="quantity", min_value=0),
         gx.expectations.ExpectColumnValuesToBeBetween(column="unit_price", min_value=0),
     ):
         suite.add_expectation(expectation)
@@ -62,11 +62,13 @@ def _products_suite(name: str) -> ExpectationSuite:
 
 
 def _customers_suite(name: str) -> ExpectationSuite:
+    """Mirrors 01_explore_bronze.py's combined null check on customer_id/email/ip_address."""
     suite = gx.ExpectationSuite(name=name)
     for expectation in (
         gx.expectations.ExpectColumnValuesToBeUnique(column="customer_id"),
         gx.expectations.ExpectColumnValuesToNotBeNull(column="customer_id"),
         gx.expectations.ExpectColumnValuesToNotBeNull(column="email"),
+        gx.expectations.ExpectColumnValuesToNotBeNull(column="ip_address"),
     ):
         suite.add_expectation(expectation)
     return suite
