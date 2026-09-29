@@ -7,6 +7,7 @@ from src.pipelines.bronze import ingest_batch_sources
 from src.pipelines.gold import run_gold_pipeline
 from src.pipelines.quality import run_quality_gate
 from src.pipelines.silver import run_silver_batch_pipeline
+from src.utils.callbacks import log_quality_gate_failure
 
 default_args = {
     "owner": "data-eng",
@@ -27,6 +28,10 @@ with DAG(
     bronze_layer = PythonOperator(
         task_id="bronze_layer",
         python_callable=ingest_batch_sources,
+        # MinIO/network can be transiently flaky right after the stack comes
+        # up; more, shorter-spaced attempts than the DAG default.
+        retries=3,
+        retry_delay=timedelta(minutes=2),
     )
 
     silver_layer = PythonOperator(
@@ -37,6 +42,10 @@ with DAG(
     quality_gate = PythonOperator(
         task_id="quality_gate",
         python_callable=run_quality_gate,
+        # A GX failure means the data is genuinely bad, not transient --
+        # retrying just delays the alert.
+        retries=0,
+        on_failure_callback=log_quality_gate_failure,
     )
 
     gold_layer = PythonOperator(
