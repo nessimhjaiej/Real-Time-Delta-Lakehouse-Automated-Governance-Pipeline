@@ -5,6 +5,7 @@ from airflow.operators.python import PythonOperator
 
 from src.pipelines.bronze import ingest_batch_sources
 from src.pipelines.gold import run_gold_pipeline
+from src.pipelines.quality import run_quality_gate
 from src.pipelines.silver import run_silver_batch_pipeline
 
 default_args = {
@@ -33,9 +34,14 @@ with DAG(
         python_callable=run_silver_batch_pipeline,
     )
 
+    quality_gate = PythonOperator(
+        task_id="quality_gate",
+        python_callable=run_quality_gate,
+    )
+
     gold_layer = PythonOperator(
         task_id="gold_layer",
         python_callable=run_gold_pipeline,
     )
 
-    bronze_layer >> silver_layer >> gold_layer
+    bronze_layer >> silver_layer >> quality_gate >> gold_layer
