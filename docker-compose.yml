@@ -222,7 +222,21 @@ services:
     depends_on:
       - marquez-api
 
+  # ------------------------------------------------------------- RAG -----
+  # Phase 5 Stage 5: vector store for metric/policy chunks.
+  # The only new heavy service besides what Phase 4 already added (per
+  # the "add no heavy services beyond Qdrant" constraint).
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333" # REST
+      - "6334:6334" # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+
 volumes:
   minio_data:
   postgres_db_data:
   marquez_db_data:
+  qdrant_data:

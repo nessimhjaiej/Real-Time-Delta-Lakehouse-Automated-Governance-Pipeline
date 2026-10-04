@@ -38,5 +38,11 @@ jobs:
           mypy config/ src/
 
       - name: Run Unit Tests (Pytest)
+        # Tests that need a local MinIO (DuckDBExecutor) or Qdrant (RAG
+        # ingest/retrieval/eval) skip themselves automatically here, since
+        # this workflow doesn't provision either service -- see each test
+        # file's requires_minio/requires_qdrant marker. Everything else,
+        # including the fully-mocked agent/API/eval-runner tests, runs for
+        # real with no network access beyond the dependency install above.
         run: |
           pytest tests/

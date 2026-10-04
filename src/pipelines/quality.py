@@ -1,13 +1,7 @@
-"""Great Expectations circuit breaker on the Silver-to-Gold boundary.
-
-The expectations here encode what src/notebooks/02_explore_silver.py found by
-hand: ``order_line_id`` is supposed to be a primary key in both orders tables,
-but silver_orders_batch had one collision from a corrupted bronze invoice_id,
-and silver_orders_stream had 33 -- because the dedup key in
-``src.pipelines.silver.cleanse`` includes ``timestamp`` while
-``order_line_id`` does not, so near-duplicate events with slightly different
-timestamps survive dropDuplicates and then collide on the key Gold joins on.
-This module stops that from reaching Gold silently.
+"""
+basically citcuit breaker for the silver-to-gold pipeline. If any Silver table fails
+its Great Expectations suite, the quality gate task fails and the Gold layer is not built.
+This prevents bad data from propagating into the star schema.
 """
 
 from __future__ import annotations
@@ -100,10 +94,10 @@ def _validate_table(
     for expectation_result in result.results:
         if expectation_result.success:
             continue
-        column = expectation_result.expectation_config.kwargs.get("column")
-        failures.append(
-            f"{table_name}.{column}: {expectation_result.expectation_config.type}"
-        )
+        config = expectation_result.expectation_config
+        assert config is not None  # always set on a result from batch.validate()
+        column = config.kwargs.get("column")
+        failures.append(f"{table_name}.{column}: {config.type}")
     return failures
 
 
