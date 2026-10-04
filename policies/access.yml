@@ -1,0 +1,55 @@
+# Role -> permissions. There's no real auth yet (role arrives via an HTTP
+# header in Stage 6 FastAPI), so this starts with a single default role
+# rather than a role taxonomy nobody has designed yet. Add more roles here
+# later -- the policy engine (src/governance_agent/policy.py) and validator
+# are both already generic over role name.
+roles:
+  analyst:
+    description: >
+      Default role for all natural-language questions. Full access to the
+      Gold tables' non-PII columns; no role ever sees PII, since it isn't a
+      question of role scope here -- it's blocked outright (see
+      pii_columns).
+    allowed_tables:
+      - fact_orders
+      - dim_customers
+      - dim_products
+    allowed_columns:
+      fact_orders:
+        - order_line_id
+        - invoice_id
+        - customer_id
+        - product_id
+        - quantity
+        - unit_price
+        - total_amount
+        - timestamp
+      dim_customers:
+        - customer_id
+        - country
+      dim_products:
+        - product_id
+        - category
+        - description
+        - price
+        - rating_avg
+        - rating_count
+        - title
+    # Always blocked from the SELECT list and from filters, regardless of
+    # allowed_columns above -- see Stage 1's PII inventory. customer_id is
+    # listed here AND in allowed_columns because it's fine as a join key
+    # (never shown to the user) but must never be selected or filtered on
+    # directly. It's blocked on BOTH tables: fact_orders.customer_id and
+    # dim_customers.customer_id are the exact same unsalted hash (both come
+    # from silver.hash_customer_id), so both are equally sensitive.
+    pii_columns:
+      fact_orders:
+        - customer_id
+      dim_customers:
+        - full_name
+        - email
+        - ip_address
+        - customer_id
+    max_rows: 1000
+    allowed_operations:
+      - SELECT
