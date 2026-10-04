@@ -1,0 +1,40 @@
+metrics:
+  - name: total_revenue
+    description: >
+      Total revenue recognized across all order lines, computed as
+      quantity * unit_price (matches Gold's own definition of
+      fact_orders.total_amount).
+    table: fact_orders
+    expression: "SUM(total_amount)"
+    time_column: timestamp
+
+  - name: order_count
+    description: >
+      Number of distinct orders (invoices) — not order lines. Two rows in
+      fact_orders can share one invoice_id if the order had multiple
+      products.
+    table: fact_orders
+    expression: "COUNT(DISTINCT invoice_id)"
+    time_column: timestamp
+
+  - name: order_line_count
+    description: >
+      Number of distinct order lines. fact_orders' grain is one row per
+      order_line_id (one product within one order), so this is a row count.
+    table: fact_orders
+    expression: "COUNT(DISTINCT order_line_id)"
+    time_column: timestamp
+
+  - name: total_quantity_sold
+    description: Total units sold across all order lines.
+    table: fact_orders
+    expression: "SUM(quantity)"
+    time_column: timestamp
+
+  - name: average_order_value
+    description: >
+      Average revenue per order (invoice): total_revenue divided by
+      order_count.
+    table: fact_orders
+    expression: "SUM(total_amount) / COUNT(DISTINCT invoice_id)"
+    time_column: timestamp

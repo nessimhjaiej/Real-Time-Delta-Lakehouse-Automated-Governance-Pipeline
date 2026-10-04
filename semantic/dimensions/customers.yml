@@ -1,0 +1,5 @@
+dimensions:
+  - name: customer_country
+    description: Country the customer signed up from.
+    table: dim_customers
+    column: country

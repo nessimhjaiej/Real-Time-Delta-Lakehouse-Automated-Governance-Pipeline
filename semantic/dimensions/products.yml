@@ -1,0 +1,10 @@
+dimensions:
+  - name: product_category
+    description: Product catalog category.
+    table: dim_products
+    column: category
+
+  - name: product_title
+    description: Product display title.
+    table: dim_products
+    column: title

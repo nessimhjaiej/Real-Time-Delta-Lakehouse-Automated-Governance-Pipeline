@@ -1,0 +1,7 @@
+dimensions:
+  - name: order_date
+    description: >
+      Calendar date the order line was recorded (fact_orders.timestamp
+      truncated to day).
+    table: fact_orders
+    column: "CAST(timestamp AS DATE)"

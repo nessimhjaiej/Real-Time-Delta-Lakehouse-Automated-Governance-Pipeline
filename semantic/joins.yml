@@ -1,0 +1,12 @@
+joins:
+  - left_table: fact_orders
+    left_key: customer_id
+    right_table: dim_customers
+    right_key: customer_id
+    join_type: left
+
+  - left_table: fact_orders
+    left_key: product_id
+    right_table: dim_products
+    right_key: product_id
+    join_type: left
