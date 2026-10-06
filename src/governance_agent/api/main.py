@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException
 from langchain_openai import ChatOpenAI
 
-from src.governance_agent.agent.graph import build_graph
+from src.governance_agent.agent.graph import bind_intent_tools, build_graph
 from src.governance_agent.api.schemas import (
     AskRequest,
     AskResponse,
@@ -33,7 +33,6 @@ from src.governance_agent.api.schemas import (
     MetricsResponse,
 )
 from src.governance_agent.audit import AuditLog, AuditRecord
-from src.governance_agent.compiler import QueryIntent
 from src.governance_agent.exceptions import UnknownRoleError
 from src.governance_agent.executors.factory import get_executor
 from src.governance_agent.policy import load_access_policy
@@ -75,7 +74,7 @@ def _llm() -> ChatOpenAI:
 
 @lru_cache(maxsize=1)
 def _structured_llm():
-    return _llm().bind_tools([QueryIntent], tool_choice="QueryIntent")
+    return bind_intent_tools(_llm())
 
 
 @lru_cache(maxsize=8)

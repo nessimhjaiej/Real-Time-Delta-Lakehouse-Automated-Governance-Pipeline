@@ -3,9 +3,16 @@ from datetime import date
 import pytest
 import sqlglot
 
-from src.governance_agent.compiler import Filter, QueryIntent, TimeRange, compile_query
+from src.governance_agent.compiler import (
+    Filter,
+    OrderBy,
+    QueryIntent,
+    TimeRange,
+    compile_query,
+)
 from src.governance_agent.exceptions import (
     InvalidFilterError,
+    InvalidOrderError,
     NoJoinPathError,
     UnknownDimensionError,
     UnknownMetricError,
@@ -242,6 +249,46 @@ def test_dimension_with_no_join_path_raises(catalog: SemanticCatalog) -> None:
 
     with pytest.raises(NoJoinPathError):
         compile_query(intent, catalog)
+
+
+def test_order_by_metric_descending_with_top_n(catalog: SemanticCatalog) -> None:
+    intent = QueryIntent(
+        metric="revenue",
+        dimensions=["country"],
+        order_by=[OrderBy(by="revenue", direction="desc")],
+        limit=5,
+    )
+
+    sql = _sql(intent, catalog)
+
+    assert "ORDER BY revenue DESC" in sql
+    assert sql.index("ORDER BY") < sql.index("LIMIT 5")
+
+
+def test_order_by_dimension_ascending(catalog: SemanticCatalog) -> None:
+    intent = QueryIntent(
+        metric="revenue",
+        dimensions=["country"],
+        order_by=[OrderBy(by="country", direction="asc")],
+    )
+
+    assert "ORDER BY country" in _sql(intent, catalog)
+    assert "DESC" not in _sql(intent, catalog)
+
+
+def test_order_by_something_not_in_the_result_is_rejected(
+    catalog: SemanticCatalog,
+) -> None:
+    intent = QueryIntent(
+        metric="revenue", order_by=[OrderBy(by="category", direction="desc")]
+    )
+
+    with pytest.raises(InvalidOrderError):
+        compile_query(intent, catalog)
+
+
+def test_no_order_by_means_no_order_clause(catalog: SemanticCatalog) -> None:
+    assert "ORDER BY" not in _sql(QueryIntent(metric="revenue"), catalog)
 
 
 def test_default_and_custom_row_limit(catalog: SemanticCatalog) -> None:

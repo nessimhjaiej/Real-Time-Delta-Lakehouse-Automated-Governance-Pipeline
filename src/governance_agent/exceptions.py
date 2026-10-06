@@ -48,6 +48,10 @@ class InvalidFilterError(GovernanceAgentError):
     """Raised when a QueryIntent filter is malformed (e.g. IN with a non-list value)."""
 
 
+class InvalidOrderError(GovernanceAgentError):
+    """Raised when an ORDER BY targets something that isn't in the result."""
+
+
 class UnknownRoleError(GovernanceAgentError):
     def __init__(self, name: str) -> None:
         super().__init__(f"Unknown role: {name!r}")

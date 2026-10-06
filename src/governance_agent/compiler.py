@@ -18,7 +18,11 @@ from pydantic import BaseModel
 from sqlglot import exp
 from sqlglot.errors import ParseError
 
-from src.governance_agent.exceptions import InvalidFilterError, NoJoinPathError
+from src.governance_agent.exceptions import (
+    InvalidFilterError,
+    InvalidOrderError,
+    NoJoinPathError,
+)
 from src.governance_agent.semantic.models import Dimension, SemanticCatalog
 
 FilterOperator = Literal["=", "!=", ">", "<", ">=", "<=", "IN"]
@@ -47,6 +51,13 @@ class TimeRange(BaseModel):
     end: date | None = None
 
 
+class OrderBy(BaseModel):
+    """Sort the result by the metric or by one of the selected dimensions."""
+
+    by: str
+    direction: Literal["asc", "desc"] = "desc"
+
+
 class QueryIntent(BaseModel):
     """What the LLM (Stage 6) produces as structured output."""
 
@@ -54,7 +65,18 @@ class QueryIntent(BaseModel):
     dimensions: list[str] = []
     filters: list[Filter] = []
     time_range: TimeRange | None = None
+    order_by: list[OrderBy] = []
     limit: int = DEFAULT_ROW_LIMIT
+
+
+class CannotAnswer(BaseModel):
+    """The model's way to decline: no listed metric/dimension fits the question.
+
+    Offered next to QueryIntent so the model is never forced to pick the
+    nearest metric (e.g. answering "best customer's name" with total revenue).
+    """
+
+    reason: str
 
 
 def _parse_sql_fragment(text: str) -> exp.Expr:
@@ -151,6 +173,23 @@ def compile_query(intent: QueryIntent, catalog: SemanticCatalog) -> exp.Select:
 
     if dimensions:
         query = query.group_by(*[_dimension_expr(d) for d in dimensions])
+
+    # ORDER BY targets the output aliases (the metric name or a selected
+    # dimension name), so it can only sort by something in the result.
+    sortable = {metric.name, *(d.name for d in dimensions)}
+    for order in intent.order_by:
+        if order.by not in sortable:
+            raise InvalidOrderError(
+                f"Cannot order by {order.by!r}; choose the metric "
+                f"{metric.name!r} or one of the selected dimensions {sorted(sortable - {metric.name})}"
+            )
+    if intent.order_by:
+        query = query.order_by(
+            *[
+                exp.Ordered(this=exp.column(o.by), desc=o.direction == "desc")
+                for o in intent.order_by
+            ]
+        )
 
     query = query.limit(intent.limit)
     return query

@@ -113,7 +113,7 @@ def validate_query(
             )
         )
 
-    for clause_type in (exp.Where, exp.Having):
+    for clause_type in (exp.Where, exp.Having, exp.Order):
         clause = statement.find(clause_type)
         if clause is None:
             continue

@@ -192,6 +192,46 @@ def test_happy_path_falls_back_to_raw_question_if_interpret_returns_blank() -> N
     assert result["search_query"] == "raw question text"
 
 
+# --- blocked: the model declines via CannotAnswer --------------------------
+
+
+def test_cannot_answer_blocks_without_executing_and_cites_a_policy() -> None:
+    executor = FakeExecutor()
+    decline = FakeMessagesListChatModel(
+        responses=[
+            AIMessage(
+                content="",
+                tool_calls=[
+                    {
+                        "name": "CannotAnswer",
+                        "args": {"reason": "no customer name dimension exists"},
+                        "id": "call_1",
+                    }
+                ],
+            )
+        ]
+    )
+    graph = build_graph(
+        llm=_plain_llm(),
+        structured_llm=decline,
+        catalog=_catalog(),
+        policy=_policy(),
+        executor=executor,
+        metric_retriever=_fake_metric_retriever([METRIC_CHUNK]),
+        citation_retriever=_fake_citation_retriever([POLICY_CHUNK]),
+    )
+
+    result = graph.invoke(
+        {"question": "name of our best customer", "role": "analyst", "user": "n"}
+    )
+
+    assert result["verdict"] == "blocked"
+    assert "no customer name dimension exists" in result["block_reason"]
+    assert result["citations"] == [POLICY_CHUNK]
+    assert executor.calls == []
+    assert "compiled_sql" not in result
+
+
 # --- blocked: validator rejects the compiled SQL -------------------------
 
 
