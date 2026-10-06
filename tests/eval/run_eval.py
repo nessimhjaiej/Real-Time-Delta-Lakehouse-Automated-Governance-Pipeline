@@ -108,11 +108,11 @@ def _real_llms() -> tuple[Any, Any]:
 
     from langchain_openai import ChatOpenAI
 
-    from src.governance_agent.compiler import QueryIntent
+    from src.governance_agent.agent.graph import bind_intent_tools
 
     model = os.getenv("OPENAI_MODEL", "gpt-5-mini")
     llm = ChatOpenAI(model=model)
-    structured_llm = llm.bind_tools([QueryIntent], tool_choice="QueryIntent")
+    structured_llm = bind_intent_tools(llm)
     return llm, structured_llm
 
 

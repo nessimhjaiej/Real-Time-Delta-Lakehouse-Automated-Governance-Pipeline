@@ -179,6 +179,24 @@ def test_pii_column_in_where_is_blocked_even_if_not_selected(
     assert "PII" in result.reason
 
 
+def test_pii_column_in_order_by_is_blocked(policy: RolePolicy) -> None:
+    sql = "SELECT country FROM dim_customers ORDER BY email LIMIT 10"
+
+    result = validate_query(sql, policy)
+
+    assert not result.allowed
+    assert "PII" in result.reason
+
+
+def test_order_by_on_an_alias_is_allowed(policy: RolePolicy) -> None:
+    sql = (
+        "SELECT country AS c, COUNT(*) AS n FROM dim_customers "
+        "GROUP BY country ORDER BY n DESC LIMIT 10"
+    )
+
+    assert validate_query(sql, policy).allowed
+
+
 def test_fact_orders_customer_id_is_blocked_same_as_dim_customers(
     policy: RolePolicy,
 ) -> None:

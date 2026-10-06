@@ -6,9 +6,17 @@ on:
   pull_request:
     branches: [ main, master ]
 
+# A newer push to the same branch makes the older run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality-checks:
     runs-on: ubuntu-latest
+    # A hung test (e.g. waiting on a service that isn't there) would otherwise
+    # run for GitHub's 6 hour default.
+    timeout-minutes: 25
 
     steps:
       - name: Checkout Repository
@@ -19,6 +27,14 @@ jobs:
         with:
           python-version: "3.12"
           cache: "pip"
+
+      - name: Set up Java 17
+        # The PySpark tests need a JVM; pinning it avoids depending on what
+        # the runner image happens to ship.
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
 
       - name: Install Dependencies
         run: |

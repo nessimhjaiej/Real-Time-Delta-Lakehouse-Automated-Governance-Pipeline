@@ -4,9 +4,9 @@
 Model wiring is intentionally split in two:
   - ``llm``: used plainly for interpret (query rewriting) and narrate (short
     text from already-computed rows). Just .invoke(...) and read .content.
-  - ``structured_llm``: used in compile to pick a QueryIntent. Just
-    .invoke(...) and read .tool_calls -- binding (``llm.bind_tools([QueryIntent],
-    tool_choice="QueryIntent")``) happens once, outside this module, when the
+  - ``structured_llm``: used in compile to pick a QueryIntent (or decline
+    with CannotAnswer). Just .invoke(...) and read .tool_calls -- binding
+    (``bind_intent_tools(llm)``) happens once, outside the nodes, when the
     caller constructs the model. That keeps node code identical whether
     ``structured_llm`` is a real bound ChatOpenAI or a test double that
     returns a canned AIMessage with .tool_calls already set -- no model needs
@@ -27,7 +27,7 @@ from langchain_core.messages import HumanMessage
 from pydantic import ValidationError
 
 from src.governance_agent.agent.state import AgentState
-from src.governance_agent.compiler import QueryIntent, compile_query
+from src.governance_agent.compiler import CannotAnswer, QueryIntent, compile_query
 from src.governance_agent.exceptions import GovernanceAgentError
 from src.governance_agent.executors.base import QueryExecutor
 from src.governance_agent.policy import RolePolicy
@@ -41,6 +41,14 @@ from src.governance_agent.validator import validate_query
 
 MetricRetriever = Callable[[str], list[RetrievedChunk]]
 CitationRetriever = Callable[[str], list[RetrievedChunk]]
+
+
+def bind_intent_tools(llm: BaseChatModel):
+    """Bind the two tools the compile step may call; one call is required.
+
+    Returns the bound runnable (left unannotated like the node factories).
+    """
+    return llm.bind_tools([QueryIntent, CannotAnswer], tool_choice="required")
 
 
 def _interpret_node(llm: BaseChatModel):
@@ -84,7 +92,14 @@ def _compile_node(structured_llm: BaseChatModel, catalog: SemanticCatalog):
             f"Question: {state['question']}\n\n"
             f"Candidate metrics (pick one of these by name):\n{candidate_text}\n\n"
             f"Available dimensions (pick zero or more by name):\n{dimension_text}\n\n"
-            "Call the QueryIntent tool with your choice."
+            "For ranking questions (top, best, highest, lowest, most, least) set "
+            "order_by to the metric name (direction desc for top/highest, asc for "
+            "lowest) and set limit to N; order_by may also name a chosen dimension.\n\n"
+            "If the question needs something no candidate metric or dimension "
+            "provides (for example a customer's name, email or IP, an individual "
+            "customer, or a metric that isn't listed), do NOT pick the closest "
+            "metric: call the CannotAnswer tool and say what is missing. "
+            "Otherwise call the QueryIntent tool with your choice."
         )
         response = structured_llm.invoke([HumanMessage(prompt)])
 
@@ -94,8 +109,19 @@ def _compile_node(structured_llm: BaseChatModel, catalog: SemanticCatalog):
                 "block_reason": "Could not interpret the question into a known metric.",
             }
 
+        tool_call = response.tool_calls[0]
+        if tool_call["name"] == CannotAnswer.__name__:
+            reason = str(tool_call["args"].get("reason", "")).strip()
+            return {
+                "verdict": "blocked",
+                "block_reason": (
+                    "This question cannot be answered with the governed metrics "
+                    f"and dimensions: {reason}".rstrip(": ")
+                ),
+            }
+
         try:
-            intent = QueryIntent(**response.tool_calls[0]["args"])
+            intent = QueryIntent(**tool_call["args"])
             compiled = compile_query(intent, catalog)
             sql = compiled.sql(dialect="duckdb")
         except (GovernanceAgentError, ValidationError) as error:
