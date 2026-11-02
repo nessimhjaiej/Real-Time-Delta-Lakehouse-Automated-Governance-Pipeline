@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Annotated, Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, StringConstraints
+
+MAX_QUESTION_LENGTH = 500
 
 
 class AskRequest(BaseModel):
-    question: str
+    question: Annotated[
+        str,
+        StringConstraints(
+            strip_whitespace=True, min_length=1, max_length=MAX_QUESTION_LENGTH
+        ),
+    ]
 
 
 class AskResponse(BaseModel):
@@ -36,3 +43,13 @@ class MetricsResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
+
+
+class RoleInfo(BaseModel):
+    name: str
+    description: str
+    max_rows: int
+
+
+class RolesResponse(BaseModel):
+    roles: list[RoleInfo]

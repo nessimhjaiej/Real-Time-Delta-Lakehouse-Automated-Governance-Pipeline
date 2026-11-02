@@ -11,6 +11,7 @@ Gold tables are registered as views once at connect time, so compiled SQL
 from __future__ import annotations
 
 import os
+import threading
 import time
 
 import duckdb
@@ -61,6 +62,9 @@ class DuckDBExecutor(QueryExecutor):
             else os.getenv("MINIO_SECRET_KEY", "minioadminpassword")
         )
 
+        # FastAPI runs requests on a thread pool and the executor is shared,
+        # so queries on the one connection are serialised.
+        self._lock = threading.Lock()
         self._conn = duckdb.connect()
         self._conn.execute("INSTALL httpfs")
         self._conn.execute("LOAD httpfs")
@@ -80,10 +84,11 @@ class DuckDBExecutor(QueryExecutor):
     def execute(self, sql: str) -> QueryResult:
         statement = _parse_single_select(sql)
         start = time.perf_counter()
-        result = self._conn.execute(statement.sql(dialect="duckdb"))
-        rows = result.fetchall()
+        with self._lock:
+            result = self._conn.execute(statement.sql(dialect="duckdb"))
+            rows = result.fetchall()
+            columns = [d[0] for d in result.description]
         duration_ms = (time.perf_counter() - start) * 1000
-        columns = [d[0] for d in result.description]
         return QueryResult(
             columns=columns,
             rows=[list(row) for row in rows],
