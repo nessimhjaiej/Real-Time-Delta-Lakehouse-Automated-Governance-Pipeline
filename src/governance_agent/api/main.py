@@ -19,9 +19,11 @@ import time
 import uuid
 from datetime import datetime, timezone
 from functools import lru_cache
+from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException
+from fastapi.responses import FileResponse
 from langchain_openai import ChatOpenAI
 
 from src.governance_agent.agent.graph import bind_intent_tools, build_graph
@@ -31,6 +33,8 @@ from src.governance_agent.api.schemas import (
     HealthResponse,
     MetricInfo,
     MetricsResponse,
+    RoleInfo,
+    RolesResponse,
 )
 from src.governance_agent.audit import AuditLog, AuditRecord
 from src.governance_agent.exceptions import UnknownRoleError
@@ -42,6 +46,7 @@ load_dotenv()
 
 app = FastAPI(title="Realtime Governance Engine")
 
+STATIC_DIR = Path(__file__).parent / "static"
 DEFAULT_ROLE = "analyst"
 DEFAULT_USER = "anonymous"
 
@@ -84,6 +89,23 @@ def get_agent_graph(role: str):
     once, rather than overriding each of llm/executor/retrievers."""
     policy = _access_policy().get_role(role)
     return build_graph(_llm(), _structured_llm(), _catalog(), policy, _executor())
+
+
+@app.get("/", include_in_schema=False)
+def index() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/roles", response_model=RolesResponse)
+def roles() -> RolesResponse:
+    return RolesResponse(
+        roles=[
+            RoleInfo(
+                name=name, description=policy.description, max_rows=policy.max_rows
+            )
+            for name, policy in _access_policy().roles.items()
+        ]
+    )
 
 
 @app.get("/health", response_model=HealthResponse)

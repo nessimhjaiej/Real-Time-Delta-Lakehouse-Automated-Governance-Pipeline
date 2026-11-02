@@ -133,6 +133,30 @@ def client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:
     return TestClient(main.app)
 
 
+def test_index_serves_the_frontend_page() -> None:
+    response = TestClient(main.app).get("/")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/html")
+    assert "Governed Analytics" in response.text
+
+
+def test_roles_lists_roles_from_the_real_access_policy() -> None:
+    response = TestClient(main.app).get("/roles")
+
+    assert response.status_code == 200
+    roles = {r["name"]: r for r in response.json()["roles"]}
+    assert "analyst" in roles
+    assert roles["analyst"]["max_rows"] > 0
+
+
+@pytest.mark.parametrize("question", ["", "   ", "x" * 501])
+def test_ask_rejects_blank_or_oversized_questions(question: str) -> None:
+    response = TestClient(main.app).post("/ask", json={"question": question})
+
+    assert response.status_code == 422
+
+
 def test_health() -> None:
     client = TestClient(main.app)
     response = client.get("/health")

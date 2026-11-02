@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Governed Analytics</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --surface: #ffffff; --text: #1a1d23; --muted: #667085;
+    --border: #e1e4ea; --accent: #2f5bea; --accent-text: #ffffff;
+    --ok-bg: #e7f6ec; --ok-text: #14693a; --block-bg: #fdeceb; --block-text: #a1261b;
+    --code-bg: #f0f2f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12141a; --surface: #1b1e26; --text: #e7e9ee; --muted: #98a0b3;
+      --border: #2d313c; --accent: #6b8cff; --accent-text: #0e1220;
+      --ok-bg: #12301f; --ok-text: #7fd8a1; --block-bg: #3a1a18; --block-text: #ff9d94;
+      --code-bg: #232733;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12141a; --surface: #1b1e26; --text: #e7e9ee; --muted: #98a0b3;
+    --border: #2d313c; --accent: #6b8cff; --accent-text: #0e1220;
+    --ok-bg: #12301f; --ok-text: #7fd8a1; --block-bg: #3a1a18; --block-text: #ff9d94;
+    --code-bg: #232733;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+    padding: 14px 24px; background: var(--surface); border-bottom: 1px solid var(--border);
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 650; }
+  header h1 small { color: var(--muted); font-weight: 400; margin-left: 8px; }
+  .role { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+  select, textarea, button { font: inherit; color: inherit; }
+  select {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px;
+  }
+  main {
+    display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px;
+    max-width: 1120px; margin: 0 auto; padding: 24px 16px 48px;
+  }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+  }
+  .card + .card { margin-top: 16px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 10px; }
+  textarea {
+    width: 100%; min-height: 76px; resize: vertical; padding: 10px 12px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  }
+  textarea:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .grow { flex: 1; }
+  button.primary {
+    background: var(--accent); color: var(--accent-text); border: 0; border-radius: 8px;
+    padding: 8px 18px; font-weight: 600; cursor: pointer;
+  }
+  button.primary:disabled { opacity: .55; cursor: progress; }
+  .chip {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 999px;
+    padding: 4px 12px; font-size: 13px; cursor: pointer;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 650;
+  }
+  .badge.allowed { background: var(--ok-bg); color: var(--ok-text); }
+  .badge.blocked { background: var(--block-bg); color: var(--block-text); }
+  .q { font-weight: 600; margin: 8px 0; }
+  .answer { margin: 8px 0 12px; }
+  .reason { background: var(--block-bg); color: var(--block-text); border-radius: 8px; padding: 10px 12px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { padding: 7px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { background: var(--bg); color: var(--muted); font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: 0; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+  pre {
+    background: var(--code-bg); border-radius: 8px; padding: 10px 12px; overflow-x: auto;
+    font: 13px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; margin: 8px 0;
+  }
+  ul.plain { list-style: none; margin: 0; padding: 0; }
+  ul.plain li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  ul.plain li:last-child { border-bottom: 0; }
+  ul.plain b { display: block; font-size: 13px; }
+  ul.plain span { color: var(--muted); }
+  .cite { font: 12px ui-monospace, Consolas, monospace; color: var(--muted); word-break: break-all; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -2px; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+  .hist { cursor: pointer; }
+  .hist:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Governed Analytics <small>ask in plain language, every answer is policy-checked</small></h1>
+  <label class="role">Role
+    <select id="role" aria-label="Role"></select>
+  </label>
+</header>
+
+<main>
+  <section>
+    <div class="card">
+      <h2>Ask a question</h2>
+      <textarea id="question" placeholder="e.g. Top 5 countries by revenue" maxlength="500"></textarea>
+      <div class="row">
+        <div id="examples" class="grow row" style="margin:0"></div>
+        <button id="ask" class="primary" type="button">Ask</button>
+      </div>
+      <p class="muted" id="rolehint" style="margin:10px 0 0"></p>
+    </div>
+    <div id="result"></div>
+  </section>
+
+  <aside>
+    <div class="card">
+      <h2>What you can ask about</h2>
+      <ul class="plain" id="metrics"><li class="muted">Loading&hellip;</li></ul>
+      <p class="muted" id="dims" style="margin:10px 0 0"></p>
+    </div>
+    <div class="card">
+      <h2>Recent questions</h2>
+      <ul class="plain" id="history"><li class="muted">Nothing yet.</li></ul>
+    </div>
+  </aside>
+</main>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const EXAMPLES = [
+  "Top 5 countries by revenue",
+  "How many orders did we get?",
+  "Average order value by product category",
+  "What is the name of our best customer?",
+];
+const HISTORY_KEY = "gov-history";
+const ROLE_KEY = "gov-role";
+let roles = [];
+
+function store(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+
+function el(tag, props = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "class") node.className = v;
+    else if (k === "text") node.textContent = v;
+    else node.setAttribute(k, v);
+  }
+  for (const c of children) if (c) node.append(c);
+  return node;
+}
+
+function fmt(value) {
+  if (typeof value === "number") {
+    return Number.isInteger(value)
+      ? value.toLocaleString()
+      : value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+  return value === null || value === undefined ? "" : String(value);
+}
+
+function buildTable(columns, rows) {
+  const head = el("tr", {}, ...columns.map((c) => el("th", { text: c })));
+  const body = rows.map((r) =>
+    el("tr", {}, ...r.map((v) => el("td", { class: typeof v === "number" ? "num" : "", text: fmt(v) })))
+  );
+  return el("div", { class: "tablewrap" }, el("table", {}, el("thead", {}, head), el("tbody", {}, ...body)));
+}
+
+function citations(list) {
+  if (!list || !list.length) return null;
+  return el("details", {}, el("summary", { text: `Sources (${list.length})` }),
+    el("ul", { class: "plain" }, ...list.map((c) => el("li", {}, el("span", { class: "cite", text: c })))));
+}
+
+function renderResult(question, status, data) {
+  const blocked = status === "blocked";
+  const card = el("div", { class: "card" });
+  card.append(el("span", { class: `badge ${blocked ? "blocked" : "allowed"}`, text: blocked ? "Blocked" : "Allowed" }));
+  card.append(el("div", { class: "q", text: question }));
+  if (blocked) {
+    card.append(el("div", { class: "reason", text: data.block_reason || "This request could not be completed." }));
+  } else {
+    if (data.answer) card.append(el("div", { class: "answer", text: data.answer }));
+    if (data.columns && data.columns.length) card.append(buildTable(data.columns, data.rows));
+    const meta = [];
+    if (data.metric_used) meta.push(`Metric: ${data.metric_used}`);
+    if (data.rows) meta.push(`${data.rows.length} row${data.rows.length === 1 ? "" : "s"}`);
+    if (meta.length) card.append(el("p", { class: "muted", text: meta.join(" · ") }));
+    if (data.sql) card.append(el("details", {}, el("summary", { text: "SQL that ran" }), el("pre", { text: data.sql })));
+  }
+  const cites = citations(data.citations);
+  if (cites) card.append(cites);
+  $("result").replaceChildren(card);
+}
+
+function renderError(message) {
+  $("result").replaceChildren(el("div", { class: "card" },
+    el("span", { class: "badge blocked", text: "Error" }),
+    el("div", { class: "reason", style: "margin-top:8px", text: message })));
+}
+
+async function ask(question) {
+  question = question.trim();
+  if (!question) return;
+  const button = $("ask");
+  button.disabled = true;
+  $("result").replaceChildren(el("div", { class: "card muted" },
+    el("span", { class: "spinner" }), "Interpreting, checking policy and running the query… this can take ~20 seconds."));
+  try {
+    const response = await fetch("/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Role": $("role").value, "X-User": "web-ui" },
+      body: JSON.stringify({ question }),
+    });
+    const body = await response.json().catch(() => ({}));
+    if (response.ok) {
+      renderResult(question, "allowed", body);
+      remember(question, "allowed");
+    } else if (response.status === 403 && body.detail && typeof body.detail === "object") {
+      renderResult(question, "blocked", body.detail);
+      remember(question, "blocked");
+    } else if (response.status === 422) {
+      renderError("Please enter a question of up to 500 characters.");
+    } else {
+      renderError(typeof body.detail === "string" ? body.detail : `Request failed (${response.status}).`);
+    }
+  } catch (e) {
+    renderError("Could not reach the API. Is the server running?");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function remember(question, verdict) {
+  const items = readHistory().filter((h) => h.question !== question);
+  items.unshift({ question, verdict });
+  store(HISTORY_KEY, JSON.stringify(items.slice(0, 8)));
+  drawHistory();
+}
+function readHistory() {
+  try { return JSON.parse(load(HISTORY_KEY) || "[]"); } catch (e) { return []; }
+}
+function drawHistory() {
+  const items = readHistory();
+  if (!items.length) { $("history").replaceChildren(el("li", { class: "muted", text: "Nothing yet." })); return; }
+  $("history").replaceChildren(...items.map((h) => {
+    const li = el("li", { class: "hist", tabindex: "0", role: "button" },
+      el("span", { class: `badge ${h.verdict}`, text: h.verdict }), " ", h.question);
+    const run = () => { $("question").value = h.question; ask(h.question); };
+    li.addEventListener("click", run);
+    li.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+    return li;
+  }));
+}
+
+function updateRoleHint() {
+  const role = roles.find((r) => r.name === $("role").value);
+  const summary = role ? role.description.trim().split(/(?<=\.)\s/)[0] : "";
+  $("rolehint").textContent = role ? `${summary} Results are capped at ${role.max_rows} rows.` : "";
+}
+
+async function init() {
+  $("examples").replaceChildren(...EXAMPLES.map((text) => {
+    const chip = el("button", { class: "chip", type: "button", text });
+    chip.addEventListener("click", () => { $("question").value = text; $("question").focus(); });
+    return chip;
+  }));
+  $("ask").addEventListener("click", () => ask($("question").value));
+  $("question").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) ask($("question").value);
+  });
+  $("role").addEventListener("change", () => { store(ROLE_KEY, $("role").value); updateRoleHint(); });
+  drawHistory();
+
+  try {
+    const r = await (await fetch("/roles")).json();
+    roles = r.roles;
+    $("role").replaceChildren(...roles.map((x) => el("option", { value: x.name, text: x.name })));
+    const saved = load(ROLE_KEY);
+    if (saved && roles.some((x) => x.name === saved)) $("role").value = saved;
+    updateRoleHint();
+  } catch (e) { renderError("Could not load roles from the API."); }
+
+  try {
+    const m = await (await fetch("/metrics")).json();
+    $("metrics").replaceChildren(...m.metrics.map((x) =>
+      el("li", {}, el("b", { text: x.name }), el("span", { text: x.description.trim() }))));
+    $("dims").textContent = `Break down by: ${m.dimensions.join(", ")}`;
+  } catch (e) { $("metrics").replaceChildren(el("li", { class: "muted", text: "Could not load metrics." })); }
+}
+init();
+</script>
+</body>
+</html>
