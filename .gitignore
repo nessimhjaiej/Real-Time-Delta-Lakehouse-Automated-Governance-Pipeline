@@ -5,3 +5,6 @@ __pycache__/
 logs/
 .env
 audit/
+
+# generated data-profiling reports (contain data-derived values)
+reports/
