@@ -1,0 +1,26 @@
+import { spawn } from "node:child_process";
+import fs from "node:fs";
+const [,, url, out, mode] = process.argv;
+const chrome = process.env.CHROME_PATH || "C:/Program Files/Google/Chrome/Application/chrome.exe";
+const port = 9333 + Math.floor(Math.random()*200);
+const p = spawn(chrome, ["--headless=new","--disable-gpu",`--remote-debugging-port=${port}`,"--window-size=1500,1100",`--user-data-dir=${process.env.TEMP || "/tmp"}/toolkit-probe-prof${port}`,"about:blank"], {stdio:"ignore"});
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+let targets;
+for (let i=0;i<40;i++){ try{ targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json(); if(targets.length) break;}catch{} await sleep(250); }
+const ws = new WebSocket(targets.find(t=>t.type==="page").webSocketDebuggerUrl);
+await new Promise(r=>ws.onopen=r);
+let id=0; const pend=new Map(); const logs=[];
+ws.onmessage = e => { const m=JSON.parse(e.data); if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id);} else if(m.method==="Runtime.exceptionThrown") logs.push("EXC "+JSON.stringify(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text).slice(0,300)); };
+const send=(method,params={})=>new Promise(r=>{const i=++id;pend.set(i,r);ws.send(JSON.stringify({id:i,method,params}));});
+await send("Runtime.enable"); await send("Page.enable");
+await send("Page.navigate",{url});
+await sleep(9000);
+const ev = async expr => (await send("Runtime.evaluate",{expression:expr,returnByValue:true})).result?.result?.value;
+console.log("scrollY", await ev("window.scrollY"), "docH", await ev("document.documentElement.scrollHeight"));
+console.log("panel", await ev(`(document.querySelector('[data-role=panel] h3')||{}).textContent`));
+console.log("up/down", await ev(`Array.from(document.querySelectorAll('[data-role=panel] h4')).map(h=>h.textContent).join(' | ')`));
+console.log("bodyVisible", await ev("getComputedStyle(document.body).visibility+' '+document.body.getBoundingClientRect().height"));
+console.log("exceptions", logs);
+const shot = await send("Page.captureScreenshot",{format:"png"});
+fs.writeFileSync(out, Buffer.from(shot.result.data,"base64"));
+p.kill(); process.exit(0);
