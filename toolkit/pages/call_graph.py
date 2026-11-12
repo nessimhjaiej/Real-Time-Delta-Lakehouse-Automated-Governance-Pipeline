@@ -541,7 +541,8 @@ def collect() -> dict[str, Any]:
             "functions & methods": function_count,
             "call-graph edges": first_party_edges,
             "entry points": entry_count,
-            "unresolved calls": categories.get("unresolved", 0),
+            "dynamic or unresolved calls": categories.get("unresolved", 0)
+            + categories.get("dynamic", 0),
         },
         "sources": sources,
         "stats": {
@@ -821,7 +822,8 @@ def render(data: dict[str, Any]) -> str:
                 "call-graph edges": len(edges),
                 "entry points": len(data["entries"]),
                 "call sites": stats["call_sites"],
-                "unresolved calls": cats.get("unresolved", 0),
+                "dynamic or unresolved calls": cats.get("unresolved", 0)
+                + cats.get("dynamic", 0),
             }
         )
     )

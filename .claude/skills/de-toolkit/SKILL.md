@@ -64,8 +64,13 @@ Profile -> judge -> fix, same spirit as `data-profiling`:
 4. Suspicious numbers deserve a look first (e.g. `unresolved calls: 0` on 318
    functions; a container count taken from a stale snapshot).
 
-Known unchecked as of the first build: all six pages were generated but not yet audited
-this way.
+Audit status (2026-11-08, against commit b4f4cc5+dirty): all six pages were audited this
+way and held up. Cheap independent checks that worked, reuse them: re-parse every
+`def`/`class` with a plain `ast` walk and diff against the graph nodes; check each edge's
+cited line mentions the callee; recompute GE expectations and PK/FK/orphans with DuckDB
+`delta_scan`; diff compose services/ports/depends_on against `yaml.safe_load`; scan the
+whole catalog snapshot for email/IPv4 patterns; confirm every `file:line` citation exists.
+Re-audit a page after changing its extractor.
 
 ## View it
 
